@@ -228,4 +228,115 @@
       });
     }
   });
+  // command palette, Ctrl+K or Cmd+K
+  (function () {
+    const inProjects = location.pathname.includes('/projects/') || location.pathname.includes('/notes/');
+    const p = inProjects ? '../' : '';
+    const actions = [
+      { label: 'Go home', href: p + 'index.html', icon: 'home' },
+      { label: 'View work', href: p + 'work.html', icon: 'grid' },
+      { label: 'About', href: p + 'about.html', icon: 'user' },
+      { label: 'Experience', href: p + 'experience.html', icon: 'briefcase' },
+      { label: 'Skills', href: p + 'skills.html', icon: 'tool' },
+      { label: 'Notes', href: p + 'notes.html', icon: 'file' },
+      { label: 'Resume', href: p + 'resume.html', icon: 'file' },
+      { label: 'Contact', href: p + 'contact.html', icon: 'mail' },
+      { label: 'Download CV (PDF)', href: p + 'assets/Obioma_Chibueze_Justice_CV.pdf', icon: 'download', external: true },
+      { label: 'Open GitHub', href: 'https://github.com/Justixxprime', icon: 'external', external: true },
+      { label: 'Open LinkedIn', href: 'https://www.linkedin.com/in/chibueze-obioma', icon: 'external', external: true },
+      { label: 'Boardly case study', href: p + 'projects/boardly.html', icon: 'grid' },
+      { label: 'Victorious Concept case study', href: p + 'projects/victorious-concept.html', icon: 'grid' },
+      { label: 'Switch to light theme', action: () => window.fnSetTheme('light', false), icon: 'sun' },
+      { label: 'Switch to dark theme', action: () => window.fnSetTheme('dark', false), icon: 'moon' },
+    ];
+
+    const overlay = document.createElement('div');
+    overlay.id = 'cmdkOverlay';
+    overlay.innerHTML = `
+      <div id="cmdkBox" role="dialog" aria-modal="true" aria-label="Command palette">
+        <input id="cmdkInput" type="text" placeholder="Type a command or search" autocomplete="off">
+        <div id="cmdkList"></div>
+      </div>`;
+    document.body.appendChild(overlay);
+
+    const style = document.createElement('style');
+    style.textContent = `
+      #cmdkOverlay{position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:90; display:none; align-items:flex-start; justify-content:center; padding-top:12vh;}
+      #cmdkOverlay.open{display:flex;}
+      #cmdkBox{width:min(560px, 90vw); background:var(--ink-raised); border:1px solid var(--line); box-shadow:0 30px 80px rgba(0,0,0,0.4);}
+      #cmdkInput{width:100%; background:none; border:none; border-bottom:1px solid var(--line); color:var(--paper); font-family:'Newsreader', serif; font-size:1.05rem; padding:1rem 1.25rem; outline:none;}
+      #cmdkList{max-height:50vh; overflow-y:auto; padding:0.5rem;}
+      .cmdk-item{padding:0.65rem 0.9rem; font-size:0.92rem; color:var(--ink-soft); cursor:pointer; display:flex; justify-content:space-between;}
+      .cmdk-item.active, .cmdk-item:hover{background:var(--line-soft); color:var(--paper);}
+      .cmdk-item .k{font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:var(--ink-faint);}
+    `;
+    document.head.appendChild(style);
+
+    const listEl = overlay.querySelector('#cmdkList');
+    const inputEl = overlay.querySelector('#cmdkInput');
+    let filtered = actions.slice();
+    let activeIndex = 0;
+
+    function render() {
+      listEl.innerHTML = '';
+      filtered.forEach((a, i) => {
+        const row = document.createElement('div');
+        row.className = 'cmdk-item' + (i === activeIndex ? ' active' : '');
+        row.innerHTML = `<span>${a.label}</span>` + (a.external ? '<span class="k">↗</span>' : '');
+        row.addEventListener('click', () => runAction(a));
+        listEl.appendChild(row);
+      });
+    }
+
+    function runAction(a) {
+      close();
+      if (a.action) { a.action(); return; }
+      if (a.external) { window.open(a.href, '_blank', 'noopener'); return; }
+      window.location.href = a.href;
+    }
+
+    function open() {
+      overlay.classList.add('open');
+      inputEl.value = '';
+      filtered = actions.slice();
+      activeIndex = 0;
+      render();
+      setTimeout(() => inputEl.focus(), 30);
+    }
+    function close() { overlay.classList.remove('open'); }
+
+    inputEl.addEventListener('input', () => {
+      const q = inputEl.value.toLowerCase();
+      filtered = actions.filter(a => a.label.toLowerCase().includes(q));
+      activeIndex = 0;
+      render();
+    });
+
+    inputEl.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex = Math.min(activeIndex + 1, filtered.length - 1); render(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); activeIndex = Math.max(activeIndex - 1, 0); render(); }
+      else if (e.key === 'Enter') { e.preventDefault(); if (filtered[activeIndex]) runAction(filtered[activeIndex]); }
+      else if (e.key === 'Escape') { close(); }
+    });
+
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        overlay.classList.contains('open') ? close() : open();
+      }
+    });
+
+    const navStatus = document.querySelector('.nav-status');
+    if (navStatus) {
+      const hint = document.createElement('button');
+      hint.textContent = navStatus.querySelector('.dot') ? 'Search' : 'Search';
+      hint.setAttribute('aria-label', 'Open command palette');
+      hint.style.cssText = 'background:none; border:1px solid var(--line); color:var(--ink-soft); font-size:0.72rem; padding:0.25rem 0.55rem; cursor:pointer; margin-left:0.75rem; font-family:JetBrains Mono, monospace;';
+      hint.addEventListener('click', open);
+      navStatus.appendChild(hint);
+    }
+  })();
+
 })();
