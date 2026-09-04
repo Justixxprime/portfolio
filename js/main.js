@@ -1,6 +1,14 @@
 // Field Notes shared behavior, cinematic revision
 
 (function () {
+  // register service worker for real installability (top level pages only,
+  // registration persists site wide once the browser has seen it)
+  if ('serviceWorker' in navigator && !location.pathname.includes('/projects/') && !location.pathname.includes('/notes/')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js', { scope: './' }).catch(() => {});
+    });
+  }
+
   // apply saved theme before paint as much as possible
   var saved = localStorage.getItem('fn-theme') || 'dark';
   applyTheme(saved, true);
