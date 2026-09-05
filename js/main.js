@@ -100,10 +100,23 @@
     const openBtn = document.querySelector('[data-menu-open]');
     const closeBtn = document.querySelector('[data-menu-close]');
     const menu = document.getElementById('mobileMenu');
-    if (openBtn && menu) openBtn.addEventListener('click', () => menu.classList.add('open'));
-    if (closeBtn && menu) closeBtn.addEventListener('click', () => menu.classList.remove('open'));
+    function openMobileMenu() {
+      menu.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (closeBtn) closeBtn.focus();
+    }
+    function closeMobileMenu() {
+      menu.classList.remove('open');
+      document.body.style.overflow = '';
+      if (openBtn) openBtn.focus();
+    }
+    if (openBtn && menu) openBtn.addEventListener('click', openMobileMenu);
+    if (closeBtn && menu) closeBtn.addEventListener('click', closeMobileMenu);
     if (menu) {
-      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
+      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menu.classList.contains('open')) closeMobileMenu();
+      });
     }
 
     // scroll progress bar
@@ -171,6 +184,11 @@
           trigger.closest('.nav-item-dropdown').classList.toggle('open');
         }
       });
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.nav-item-dropdown.open').forEach(d => d.classList.remove('open'));
+      }
     });
 
     // scroll reveal

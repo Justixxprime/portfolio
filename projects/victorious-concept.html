@@ -158,38 +158,80 @@
   </section>
 
   <section>
-    <div class="wrap about-grid">
-      <div class="about-copy">
-        <p>The client</p>
-        <p>Victorious Concept sells bags, shoes, clothing, and slippers, and is a real business run by a family member, still trading today. An earlier training project, built in 2025 before this platform existed, is kept live on a separate URL as an honest record of where the work started rather than replaced or hidden.</p>
-
-        <p>The product</p>
-        <p>Built in React 19 and Vite, with Tailwind 4 for styling, Framer Motion for interface animation, and Supabase for the product catalog and order data. The site covers a full shop with categories and collections, cart, wishlist, checkout, order history, order tracking, an admin panel, source requests for products not yet in stock, a lookbook, and a journal.</p>
-
-        <p>The payment infrastructure</p>
-        <p>This is the part that separates it from a typical portfolio storefront. Real Vercel serverless functions handle the order lifecycle directly: <span class="mono" style="font-size:0.85rem;">create-order.js</span> creates the order record, <span class="mono" style="font-size:0.85rem;">paystack-webhook.js</span> confirms payment came through Paystack before the order is treated as paid, and <span class="mono" style="font-size:0.85rem;">process-refund.js</span> handles a genuine refund back through the same gateway. Contact and newsletter submissions go through their own dedicated functions rather than a shared catch all endpoint.</p>
-
-        <p>Why the webhook matters</p>
-        <p>A checkout button that looks complete but trusts the browser to confirm payment is not actually secure. The webhook exists so that Paystack, not the customer's browser, is the source of truth for whether money actually moved. That distinction is what makes this a real payment system.</p>
-
-        <p>Ongoing</p>
-        <p>The platform is still in active production for the client, with a documented internal production audit tracking what still needs attention as real orders come through.</p>
-
-        <div class="decision-block">
-          <div class="dq">WHY PAYSTACK, NOT STRIPE</div>
-          <div class="dchain">
-            <b>Requirement:</b> accept real Naira payments from Nigerian customers with local card and bank transfer support
-            <span class="darrow">→</span>
-            <b>Constraint:</b> the client's actual customers are in Nigeria, and Stripe's Nigerian support is weaker than a Nigeria first processor
-            <span class="darrow">→</span>
-            <b>Decision:</b> Paystack, with a webhook as the source of truth for payment confirmation
-            <span class="darrow">→</span>
-            <b>Consequence:</b> better local payment method coverage, at the cost of a smaller ecosystem of prebuilt integrations than Stripe offers
-          </div>
-          <p>The webhook detail matters more than the processor choice itself. Confirming payment from Paystack's server side callback, not from the customer's browser, is what makes this a real payment system rather than one that trusts the client to report its own success.</p>
+    <div class="wrap">
+      <div class="case-num-section" data-reveal>
+        <span class="case-num mono">01</span>
+        <div>
+          <h2 class="case-num-title">The client</h2>
+          <p class="case-num-body">Victorious Concept sells bags, shoes, clothing, and slippers, and is a real business run by a family member, still trading today. An earlier training project, built in 2025 before this platform existed, is kept live on a separate URL as an honest record of where the work started rather than replaced or hidden.</p>
         </div>
       </div>
 
+      <div class="case-num-section" data-reveal>
+        <span class="case-num mono">02</span>
+        <div>
+          <h2 class="case-num-title">The product</h2>
+          <p class="case-num-body">Built in React 19 and Vite, with Tailwind 4 for styling, Framer Motion for interface animation, and Supabase for the product catalog and order data. The site covers a full shop with categories and collections, cart, wishlist, checkout, order history, order tracking, an admin panel, source requests for products not yet in stock, a lookbook, and a journal.</p>
+        </div>
+      </div>
+
+      <div class="case-num-section" data-reveal>
+        <span class="case-num mono">03</span>
+        <div>
+          <h2 class="case-num-title">The system</h2>
+          <p class="case-num-body" style="margin-bottom:1.5rem;">How an order actually gets confirmed as paid, not just submitted.</p>
+          <div class="arch-chain">
+            <span>React 19, Vite storefront</span><span class="arch-arrow">↓</span>
+            <span>create-order.js</span><span class="arch-arrow">↓</span>
+            <span>Paystack checkout</span><span class="arch-arrow">↓</span>
+            <span>paystack-webhook.js confirms payment</span><span class="arch-arrow">↓</span>
+            <span>Supabase order marked paid</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-num-section" data-reveal>
+        <span class="case-num mono">04</span>
+        <div>
+          <h2 class="case-num-title">The payment infrastructure</h2>
+          <p class="case-num-body" style="margin-bottom:1.5rem;">This is the part that separates it from a typical portfolio storefront.</p>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">Order functions</div></div>
+            <div class="stat-cell"><div class="stat-num">1</div><div class="stat-label">Live payment gateway</div></div>
+            <div class="stat-cell"><div class="stat-num">✓</div><div class="stat-label">Webhook confirmed</div></div>
+            <div class="stat-cell"><div class="stat-num">✓</div><div class="stat-label">Real refunds</div></div>
+          </div>
+          <p class="case-num-body" style="margin-top:2rem;">Real Vercel serverless functions handle the order lifecycle directly: <span class="mono" style="font-size:0.85rem;">create-order.js</span> creates the order record, <span class="mono" style="font-size:0.85rem;">paystack-webhook.js</span> confirms payment came through Paystack before the order is treated as paid, and <span class="mono" style="font-size:0.85rem;">process-refund.js</span> handles a genuine refund back through the same gateway. Contact and newsletter submissions go through their own dedicated functions rather than a shared catch all endpoint.</p>
+          <p class="case-num-body">A checkout button that looks complete but trusts the browser to confirm payment is not actually secure. The webhook exists so that Paystack, not the customer's browser, is the source of truth for whether money actually moved. That distinction is what makes this a real payment system.</p>
+        </div>
+      </div>
+
+      <div class="case-num-section" data-reveal>
+        <span class="case-num mono">05</span>
+        <div>
+          <h2 class="case-num-title">The result</h2>
+          <p class="case-num-body">The platform is still in active production for the client, with a documented internal production audit tracking what still needs attention as real orders come through.</p>
+
+          <div class="decision-block">
+            <div class="dq">WHY PAYSTACK, NOT STRIPE</div>
+            <div class="dchain">
+              <b>Requirement:</b> accept real Naira payments from Nigerian customers with local card and bank transfer support
+              <span class="darrow">→</span>
+              <b>Constraint:</b> the client's actual customers are in Nigeria, and Stripe's Nigerian support is weaker than a Nigeria first processor
+              <span class="darrow">→</span>
+              <b>Decision:</b> Paystack, with a webhook as the source of truth for payment confirmation
+              <span class="darrow">→</span>
+              <b>Consequence:</b> better local payment method coverage, at the cost of a smaller ecosystem of prebuilt integrations than Stripe offers
+            </div>
+            <p>The webhook detail matters more than the processor choice itself. Confirming payment from Paystack's server side callback, not from the customer's browser, is what makes this a real payment system rather than one that trusts the client to report its own success.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap" style="max-width:520px;">
       <div class="fact-list">
         <div class="fact">
           <div class="k mono">Role</div>

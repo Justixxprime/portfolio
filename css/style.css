@@ -349,6 +349,22 @@ section{padding:5rem 0; border-top:1px solid var(--line);}
 .stat-num{font-family:'Fraunces', serif; font-weight:600; font-size:2.4rem; color:var(--brass); line-height:1;}
 .stat-label{font-size:0.72rem; color:var(--ink-soft); margin-top:0.5rem; font-family:'JetBrains Mono', monospace;}
 
+.contact-hero{padding-top:5.5rem;}
+.contact-hero .contact-h1{font-family:'Fraunces', serif; font-weight:600; font-size:clamp(3.2rem, 9vw, 6.5rem); line-height:0.98; letter-spacing:-0.02em; margin:0; max-width:none;}
+.contact-h1 em{color:var(--brass); font-style:italic;}
+
+.page-head .freight-h1{font-family:'JetBrains Mono', monospace; font-weight:700; font-size:clamp(2.2rem, 6vw, 3.8rem); line-height:1.05; letter-spacing:0.01em; margin:0 0 1rem; max-width:none;}
+.freight-subtitle{color:var(--brass); font-size:0.82rem; letter-spacing:0.12em; margin:0 0 1.25rem;}
+.manifest-strip{display:grid; grid-template-columns:repeat(2, 1fr); gap:1px; background:var(--line); margin-bottom:1.5rem;}
+@media (min-width:700px){ .manifest-strip{grid-template-columns:repeat(5, 1fr);} }
+.manifest-cell{background:var(--ink); padding:1.1rem 1rem; display:flex; flex-direction:column; gap:0.35rem;}
+.manifest-cell .mk{font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:var(--ink-faint); letter-spacing:0.08em;}
+.manifest-cell .mv{font-family:'JetBrains Mono', monospace; font-size:1.1rem; color:var(--brass); font-weight:700;}
+
+.shelemj-hero .editorial-h1{font-family:'Fraunces', serif; font-weight:400; font-size:clamp(3rem, 8vw, 5.5rem); line-height:1; letter-spacing:-0.01em; margin:0 0 1.25rem; max-width:none;}
+.editorial-h1 em{font-style:italic; font-weight:300; color:var(--brass);}
+.origin-line{font-size:0.72rem; color:var(--ink-faint); letter-spacing:0.1em; margin-top:1.75rem;}
+
 .contact-block h2{font-family:'Fraunces', serif; font-weight:500; font-size:clamp(2rem,4.5vw,3.4rem); max-width:16ch; margin:0 0 1.25rem;}
 .contact-links{display:flex; flex-wrap:wrap; gap:0.5rem 2rem; margin-top:2rem; font-size:0.95rem;}
 .contact-links a{text-decoration:none; border-bottom:1px solid var(--line); transition:border-color var(--dur-fast) ease, color var(--dur-fast) ease;}
