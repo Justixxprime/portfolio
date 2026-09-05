@@ -153,49 +153,91 @@
 
   <section style="border-top:none;">
     <div class="wrap">
-      <div class="shot-frame" data-reveal><img src="../assets/boardly-desktop.jpg" alt="Boardly desktop dashboard"></div>
+      <div class="browser-frame" data-reveal><div class="browser-chrome"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span><div class="browser-bar">justixxprime.github.io/boardly</div></div><img src="../assets/boardly-desktop.jpg" alt="Boardly desktop dashboard"></div>
     </div>
   </section>
 
   <section>
-    <div class="wrap about-grid">
-      <div class="about-copy">
-        <p>The problem</p>
-        <p>Most task management tools stop at assigning and tracking work inside one team. Boardly was built to go further: to also let a team run a paid marketplace of services around that work, without bolting on a separate payment system.</p>
-
-        <p>The product</p>
-        <p>Boardly is a multi tenant board based task manager. Boards, tasks, comments, and assignments all live behind Postgres row level security, so one tenant's data is genuinely isolated from another's at the database layer, not just hidden in the interface.</p>
-
-        <p>Twenty four Supabase Edge Functions carry the real logic:</p>
-        <ul style="color:var(--ink-soft); max-width:60ch; padding-left:1.25rem;">
-          <li><strong style="color:var(--paper);">Marketplace payments.</strong> <span class="mono" style="font-size:0.85rem;">marketplace-create-booking</span>, <span class="mono" style="font-size:0.85rem;">marketplace-payment-webhook</span>, <span class="mono" style="font-size:0.85rem;">marketplace-release-payout</span>, and <span class="mono" style="font-size:0.85rem;">marketplace-setup-payout</span> together run a genuine two sided marketplace: a client books a service, a payment webhook confirms it, and a payout function releases funds to the provider afterward.</li>
-          <li><strong style="color:var(--paper);">An AI board assistant.</strong> <span class="mono" style="font-size:0.85rem;">board-assistant</span> is backed by its own <span class="mono" style="font-size:0.85rem;">generate-embedding</span> function, which means the assistant can search across a board's tasks by meaning, not just by keyword match.</li>
-          <li><strong style="color:var(--paper);">External integrations.</strong> <span class="mono" style="font-size:0.85rem;">slack-slash-command</span> and <span class="mono" style="font-size:0.85rem;">zapier-create-task</span> let a task originate outside Boardly entirely. <span class="mono" style="font-size:0.85rem;">sync-task-to-google-calendar</span> plus <span class="mono" style="font-size:0.85rem;">google-oauth-callback</span> keep a task's due date in sync with a real calendar in both directions.</li>
-          <li><strong style="color:var(--paper);">Notifications across three channels.</strong> <span class="mono" style="font-size:0.85rem;">send-push</span>, <span class="mono" style="font-size:0.85rem;">send-critical-sms</span>, and <span class="mono" style="font-size:0.85rem;">daily-digest</span> cover push notifications, SMS built for Nigeria optimized delivery that bypasses do not disturb settings for urgent alerts, and an AI written daily summary email sent through Resend.</li>
-          <li><strong style="color:var(--paper);">A client portal.</strong> <span class="mono" style="font-size:0.85rem;">client-portal-action</span> and <span class="mono" style="font-size:0.85rem;">get-client-portal</span> let someone outside the core team act on a board, for example approving a task, without a full team member account.</li>
-        </ul>
-
-        <p>The engineering decision worth naming</p>
-        <p>The marketplace payment flow is the single hardest part of this system, because a payout function has to be certain a booking was genuinely paid for before releasing money to the provider. That is what the payment webhook function exists to guarantee, and getting that sequencing right, rather than trusting the client side alone, is what makes this a real payment system rather than a decorative one.</p>
-
-        <p>What is next</p>
-        <p>Boardly's own product is separately going through its own redesign, independent of this portfolio, covering a Simple and Smart mode split, vertical specific workflows for logistics, teaching, and freelance work, and further polish on the AI assistant and PWA behavior.</p>
-
-        <div class="decision-block">
-          <div class="dq">WHY SUPABASE, NOT A CUSTOM BACKEND</div>
-          <div class="dchain">
-            <b>Requirement:</b> real time sync across devices, row level security per tenant, and serverless functions without managing infrastructure
-            <span class="darrow">→</span>
-            <b>Constraint:</b> one developer, no ops team, needs to ship fast without sacrificing real data guarantees
-            <span class="darrow">→</span>
-            <b>Decision:</b> Supabase's Postgres plus Edge Functions
-            <span class="darrow">→</span>
-            <b>Consequence:</b> 24 real serverless functions instead of a hand rolled server, at the cost of being tied to Supabase's platform decisions
-          </div>
-          <p>A custom Node backend would have given more control over the marketplace payment logic specifically. It would also have meant building and maintaining auth, real time sync, and row level security from scratch, alone. That tradeoff was not worth it for this project.</p>
+    <div class="wrap">
+      <div class="case-num-section" data-reveal>
+        <span class="case-num mono">01</span>
+        <div>
+          <h2 class="case-num-title">The problem</h2>
+          <p class="case-num-body">Most task management tools stop at assigning and tracking work inside one team. Boardly was built to go further: to also let a team run a paid marketplace of services around that work, without bolting on a separate payment system.</p>
         </div>
       </div>
 
+      <div class="case-num-section" data-reveal>
+        <span class="case-num mono">02</span>
+        <div>
+          <h2 class="case-num-title">The product</h2>
+          <p class="case-num-body">Boardly is a multi tenant board based task manager. Boards, tasks, comments, and assignments all live behind Postgres row level security, so one tenant's data is genuinely isolated from another's at the database layer, not just hidden in the interface.</p>
+        </div>
+      </div>
+
+      <div class="case-num-section" data-reveal>
+        <span class="case-num mono">03</span>
+        <div>
+          <h2 class="case-num-title">The system</h2>
+          <p class="case-num-body" style="margin-bottom:1.5rem;">How a request actually moves through the platform, from interface to a confirmed, paid booking.</p>
+          <div class="arch-chain">
+            <span>Vanilla JS interface</span><span class="arch-arrow">↓</span>
+            <span>Supabase Postgres, RLS</span><span class="arch-arrow">↓</span>
+            <span>24 Edge Functions</span><span class="arch-arrow">↓</span>
+            <span>Marketplace payments</span><span class="arch-arrow">↓</span>
+            <span>Notifications (push, SMS, email)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-num-section" data-reveal>
+        <span class="case-num mono">04</span>
+        <div>
+          <h2 class="case-num-title">The complexity</h2>
+          <p class="case-num-body" style="margin-bottom:1.5rem;">Twenty four Supabase Edge Functions carry the real logic. What they actually add up to:</p>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-num">24</div><div class="stat-label">Edge Functions</div></div>
+            <div class="stat-cell"><div class="stat-num">2</div><div class="stat-label">Sided marketplace</div></div>
+            <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">Notification channels</div></div>
+            <div class="stat-cell"><div class="stat-num">1</div><div class="stat-label">AI board assistant</div></div>
+          </div>
+          <ul style="color:var(--ink-soft); max-width:60ch; padding-left:1.25rem; margin-top:2rem;">
+            <li><strong style="color:var(--paper);">Marketplace payments.</strong> <span class="mono" style="font-size:0.85rem;">marketplace-create-booking</span>, <span class="mono" style="font-size:0.85rem;">marketplace-payment-webhook</span>, <span class="mono" style="font-size:0.85rem;">marketplace-release-payout</span>, and <span class="mono" style="font-size:0.85rem;">marketplace-setup-payout</span> together run a genuine two sided marketplace: a client books a service, a payment webhook confirms it, and a payout function releases funds to the provider afterward.</li>
+            <li><strong style="color:var(--paper);">An AI board assistant.</strong> <span class="mono" style="font-size:0.85rem;">board-assistant</span> is backed by its own <span class="mono" style="font-size:0.85rem;">generate-embedding</span> function, which means the assistant can search across a board's tasks by meaning, not just by keyword match.</li>
+            <li><strong style="color:var(--paper);">External integrations.</strong> <span class="mono" style="font-size:0.85rem;">slack-slash-command</span> and <span class="mono" style="font-size:0.85rem;">zapier-create-task</span> let a task originate outside Boardly entirely. <span class="mono" style="font-size:0.85rem;">sync-task-to-google-calendar</span> plus <span class="mono" style="font-size:0.85rem;">google-oauth-callback</span> keep a task's due date in sync with a real calendar in both directions.</li>
+            <li><strong style="color:var(--paper);">Notifications across three channels.</strong> <span class="mono" style="font-size:0.85rem;">send-push</span>, <span class="mono" style="font-size:0.85rem;">send-critical-sms</span>, and <span class="mono" style="font-size:0.85rem;">daily-digest</span> cover push notifications, SMS built for Nigeria optimized delivery that bypasses do not disturb settings for urgent alerts, and an AI written daily summary email sent through Resend.</li>
+            <li><strong style="color:var(--paper);">A client portal.</strong> <span class="mono" style="font-size:0.85rem;">client-portal-action</span> and <span class="mono" style="font-size:0.85rem;">get-client-portal</span> let someone outside the core team act on a board, for example approving a task, without a full team member account.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="case-num-section" data-reveal>
+        <span class="case-num mono">05</span>
+        <div>
+          <h2 class="case-num-title">The result</h2>
+          <p class="case-num-body">The marketplace payment flow is the single hardest part of this system, because a payout function has to be certain a booking was genuinely paid for before releasing money to the provider. That is what the payment webhook function exists to guarantee, and getting that sequencing right, rather than trusting the client side alone, is what makes this a real payment system rather than a decorative one.</p>
+          <p class="case-num-body">Boardly's own product is separately going through its own redesign, independent of this portfolio, covering a Simple and Smart mode split, vertical specific workflows for logistics, teaching, and freelance work, and further polish on the AI assistant and PWA behavior.</p>
+
+          <div class="decision-block">
+            <div class="dq">WHY SUPABASE, NOT A CUSTOM BACKEND</div>
+            <div class="dchain">
+              <b>Requirement:</b> real time sync across devices, row level security per tenant, and serverless functions without managing infrastructure
+              <span class="darrow">→</span>
+              <b>Constraint:</b> one developer, no ops team, needs to ship fast without sacrificing real data guarantees
+              <span class="darrow">→</span>
+              <b>Decision:</b> Supabase's Postgres plus Edge Functions
+              <span class="darrow">→</span>
+              <b>Consequence:</b> 24 real serverless functions instead of a hand rolled server, at the cost of being tied to Supabase's platform decisions
+            </div>
+            <p>A custom Node backend would have given more control over the marketplace payment logic specifically. It would also have meant building and maintaining auth, real time sync, and row level security from scratch, alone. That tradeoff was not worth it for this project.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap" style="max-width:520px;">
       <div class="fact-list">
         <div class="fact">
           <div class="k mono">Role</div>
@@ -223,6 +265,7 @@
       </div>
     </div>
   </section>
+
 
   <section>
     <div class="wrap">
