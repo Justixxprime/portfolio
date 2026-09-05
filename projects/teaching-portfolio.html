@@ -171,6 +171,20 @@
 
         <p>Why this is a different skill than the rest</p>
         <p>Most of the other projects here are code I maintain directly. This one was built so someone with no coding background could run the content side of it herself, indefinitely, without needing me. That is a genuinely different kind of deliverable than a site that only I can update.</p>
+
+        <div class="decision-block">
+          <div class="dq">WHY DECAP CMS, NOT A CUSTOM ADMIN PANEL</div>
+          <div class="dchain">
+            <b>Requirement:</b> a non technical client needs to publish articles herself, indefinitely, without a developer in the loop
+            <span class="darrow">→</span>
+            <b>Constraint:</b> building a custom admin panel from scratch is real ongoing maintenance for a solo developer
+            <span class="darrow">→</span>
+            <b>Decision:</b> Decap CMS, a maintained open source tool, rather than something built in house
+            <span class="darrow">→</span>
+            <b>Consequence:</b> less customization than a bespoke panel, but zero ongoing maintenance burden on either of us
+          </div>
+          <p>What I would change today: the private section's login flow could use a clearer error message when a session expires. It works, but it is not as forgiving as it should be for someone who is not technical.</p>
+        </div>
       </div>
 
       <div class="fact-list">
@@ -229,14 +243,29 @@
 </main>
 
 <footer>
-  <div class="wrap foot-row">
-    <span>Obioma Chibueze Justice. © 2026</span>
-    <div class="foot-links">
-      <a href="../work.html">Work</a>
-      <a href="../about.html">About</a>
-      <a href="../notes.html">Notes</a>
-      <a href="../resume.html">Resume</a>
-      <a href="../contact.html">Contact</a>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="fname">Obioma Chibueze Justice</div>
+        <div class="ftitle">WEB DEVELOPER &amp; PRODUCT BUILDER</div>
+        <div class="floc">Lagos, Nigeria. Open to remote, hybrid, or relocation.</div>
+      </div>
+      <div class="foot-nav">
+        <a href="../work.html">Work</a>
+        <a href="../about.html">About</a>
+        <a href="../notes.html">Notes</a>
+        <a href="../contact.html">Contact</a>
+      </div>
+      <div class="foot-social">
+        <a href="https://github.com/Justixxprime" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/chibueze-obioma" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://x.com/iamjustixx" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/chibueze_obioma" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="foot-row">
+      <span>Obioma Chibueze Justice. © 2026</span>
+      <span class="foot-tagline">Built carefully, one real project at a time.</span>
     </div>
   </div>
 </footer>
