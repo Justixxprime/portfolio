@@ -180,6 +180,20 @@
 
         <p>What is next</p>
         <p>Boardly's own product is separately going through its own redesign, independent of this portfolio, covering a Simple and Smart mode split, vertical specific workflows for logistics, teaching, and freelance work, and further polish on the AI assistant and PWA behavior.</p>
+
+        <div class="decision-block">
+          <div class="dq">WHY SUPABASE, NOT A CUSTOM BACKEND</div>
+          <div class="dchain">
+            <b>Requirement:</b> real time sync across devices, row level security per tenant, and serverless functions without managing infrastructure
+            <span class="darrow">→</span>
+            <b>Constraint:</b> one developer, no ops team, needs to ship fast without sacrificing real data guarantees
+            <span class="darrow">→</span>
+            <b>Decision:</b> Supabase's Postgres plus Edge Functions
+            <span class="darrow">→</span>
+            <b>Consequence:</b> 24 real serverless functions instead of a hand rolled server, at the cost of being tied to Supabase's platform decisions
+          </div>
+          <p>A custom Node backend would have given more control over the marketplace payment logic specifically. It would also have meant building and maintaining auth, real time sync, and row level security from scratch, alone. That tradeoff was not worth it for this project.</p>
+        </div>
       </div>
 
       <div class="fact-list">

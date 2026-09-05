@@ -170,8 +170,8 @@
 
   <section>
     <div class="wrap">
-      <div class="section-label">How I actually work <div class="rule"></div></div>
-      <div class="principle-grid">
+      <div class="section-label" data-reveal>How I actually work <div class="rule"></div></div>
+      <div class="principle-grid" data-reveal>
         <div class="principle-cell">
           <div class="num">01</div>
           <h3>Find the mechanism</h3>
@@ -186,6 +186,50 @@
           <div class="num">03</div>
           <h3>Match the tool to the job</h3>
           <p>Some projects need a real Postgres backend and payment infrastructure. Others need none of that. I would rather build the right sized thing than the impressive sounding one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-i-debug">
+    <div class="wrap">
+      <div class="section-label" data-reveal>How I debug <div class="rule"></div> The method, not just the outcome</div>
+      <p style="color:var(--ink-soft); font-size:1.05rem; max-width:60ch; margin-bottom:2.5rem;" data-reveal>This is the same process from running lab assays, applied to code. It is not a metaphor I added afterward, it is genuinely how I found the same CSS bug twice, on two different projects, in minutes the second time.</p>
+
+      <div class="debug-chain" data-reveal>
+        <div class="debug-step">
+          <span class="debug-num mono">01</span>
+          <div><div class="debug-name">Observe</div><div class="debug-desc">The mobile menu on Amani Community Trust rendered in the wrong position. Not "broken," specifically wrong.</div></div>
+        </div>
+        <div class="debug-connector"></div>
+        <div class="debug-step">
+          <span class="debug-num mono">02</span>
+          <div><div class="debug-name">Hypothesize</div><div class="debug-desc">Something in the header was changing how a child element's fixed positioning was calculated.</div></div>
+        </div>
+        <div class="debug-connector"></div>
+        <div class="debug-step">
+          <span class="debug-num mono">03</span>
+          <div><div class="debug-name">Test</div><div class="debug-desc">Removed properties from the header one at a time rather than guessing at a full rewrite.</div></div>
+        </div>
+        <div class="debug-connector"></div>
+        <div class="debug-step">
+          <span class="debug-num mono">04</span>
+          <div><div class="debug-name">Isolate</div><div class="debug-desc">A backdrop filter on the header was quietly creating a new containing block for its fixed position children.</div></div>
+        </div>
+        <div class="debug-connector"></div>
+        <div class="debug-step">
+          <span class="debug-num mono">05</span>
+          <div><div class="debug-name">Fix</div><div class="debug-desc">Moved the mobile menu to be a direct child of the body instead of the header.</div></div>
+        </div>
+        <div class="debug-connector"></div>
+        <div class="debug-step">
+          <span class="debug-num mono">06</span>
+          <div><div class="debug-name">Verify</div><div class="debug-desc">Confirmed the menu behaved correctly across the breakpoints it had failed at before.</div></div>
+        </div>
+        <div class="debug-connector"></div>
+        <div class="debug-step">
+          <span class="debug-num mono">07</span>
+          <div><div class="debug-name">Ship, and remember it</div><div class="debug-desc">Months later, the identical bug showed up on ShelemJ Resources. That time it took minutes, not hours, because the mechanism was already understood.</div></div>
         </div>
       </div>
     </div>
