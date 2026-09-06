@@ -178,7 +178,8 @@
       </form>
 
       <div class="contact-links" style="margin-top:0;">
-        <a href="mailto:Obiomachibuezejustice@gmail.com">Obiomachibuezejustice@gmail.com</a>
+        <a href="mailto:Obiomachibuezejustice@gmail.com" id="emailLink">Obiomachibuezejustice@gmail.com</a>
+        <button type="button" id="copyEmailBtn" class="btn-ghost" style="background:none; border:none; cursor:pointer; font-family:inherit;" aria-label="Copy email address">Copy</button>
       </div>
       <div class="social-row">
         <a href="https://github.com/Justixxprime" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
@@ -221,5 +222,16 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script>
+  document.getElementById('copyEmailBtn').addEventListener('click', function () {
+    const email = 'Obiomachibuezejustice@gmail.com';
+    navigator.clipboard.writeText(email).then(() => {
+      const btn = document.getElementById('copyEmailBtn');
+      const original = btn.textContent;
+      btn.textContent = 'Copied';
+      setTimeout(() => { btn.textContent = original; }, 2000);
+    }).catch(() => {});
+  });
+</script>
 </body>
 </html>
