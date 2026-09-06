@@ -206,6 +206,32 @@
       document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('in-view'));
     }
 
+    // animated stat counters, real numbers counting up once when scrolled into view
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.stat-num[data-count]').forEach(el => {
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      if (reduceMotion || isNaN(target)) { el.textContent = target + suffix; return; }
+      const countObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          countObserver.unobserve(el);
+          const duration = 900;
+          const start = performance.now();
+          function tick(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(target * eased);
+            el.textContent = current + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = target + suffix;
+          }
+          requestAnimationFrame(tick);
+        });
+      }, { threshold: 0.4 });
+      countObserver.observe(el);
+    });
+
     // custom cursor, desktop with hover support only
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       const dot = document.createElement('div');

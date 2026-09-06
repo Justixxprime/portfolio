@@ -42,7 +42,7 @@
   }
 }
 </script>
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/style.css?v=3">
 </head>
 <body>
 
@@ -57,43 +57,43 @@
         <a href="../work.html" class="current">Work</a>
         <div class="dropdown-panel">
           <a href="../projects/boardly.html" class="dd-item">
-            <div class="dd-thumb"><img src="../assets/boardly-desktop.jpg" alt="Boardly"></div>
+            <div class="dd-thumb"><img src="../assets/boardly-desktop.jpg" alt="Boardly" loading="lazy"></div>
             <div class="dd-text"><div class="dd-title">Boardly</div><div class="dd-meta">Task platform</div></div>
           </a>
           <a href="../projects/victorious-concept.html" class="dd-item">
-            <div class="dd-thumb"><img src="../assets/victorious-concept-desktop.jpg" alt="Victorious Concept"></div>
+            <div class="dd-thumb"><img src="../assets/victorious-concept-desktop.jpg" alt="Victorious Concept" loading="lazy"></div>
             <div class="dd-text"><div class="dd-title">Victorious Concept</div><div class="dd-meta">E commerce</div></div>
           </a>
           <a href="../projects/first-experts.html" class="dd-item">
-            <div class="dd-thumb"><img src="../assets/firstexperts-desktop.jpg" alt="First Experts Logistics"></div>
+            <div class="dd-thumb"><img src="../assets/firstexperts-desktop.jpg" alt="First Experts Logistics" loading="lazy"></div>
             <div class="dd-text"><div class="dd-title">First Experts Logistics</div><div class="dd-meta">Client site</div></div>
           </a>
           <a href="../projects/shelemj.html" class="dd-item">
-            <div class="dd-thumb"><img src="../assets/shelemj-desktop.jpg" alt="ShelemJ Resources"></div>
+            <div class="dd-thumb"><img src="../assets/shelemj-desktop.jpg" alt="ShelemJ Resources" loading="lazy"></div>
             <div class="dd-text"><div class="dd-title">ShelemJ Resources</div><div class="dd-meta">Client site</div></div>
           </a>
           <a href="../projects/teaching-portfolio.html" class="dd-item">
-            <div class="dd-thumb"><img src="../assets/teaching-portfolio-desktop.jpg" alt="Teaching Portfolio"></div>
+            <div class="dd-thumb"><img src="../assets/teaching-portfolio-desktop.jpg" alt="Teaching Portfolio" loading="lazy"></div>
             <div class="dd-text"><div class="dd-title">Teaching Portfolio</div><div class="dd-meta">Client system</div></div>
           </a>
           <a href="../projects/cheliv.html" class="dd-item">
-            <div class="dd-thumb"><img src="../assets/work-cheliv.jpg" alt="Cheliv Compassionate Care"></div>
+            <div class="dd-thumb"><img src="../assets/work-cheliv.jpg" alt="Cheliv Compassionate Care" loading="lazy"></div>
             <div class="dd-text"><div class="dd-title">Cheliv Compassionate Care</div><div class="dd-meta">Healthcare site</div></div>
           </a>
           <a href="../projects/stride.html" class="dd-item">
-            <div class="dd-thumb"><img src="../assets/stride-desktop.jpg" alt="Stride"></div>
+            <div class="dd-thumb"><img src="../assets/stride-desktop.jpg" alt="Stride" loading="lazy"></div>
             <div class="dd-text"><div class="dd-title">Stride</div><div class="dd-meta">E commerce concept</div></div>
           </a>
           <a href="../projects/fernhollow.html" class="dd-item">
-            <div class="dd-thumb"><img src="../assets/fernhollow-tablet.jpg" alt="Fernhollow"></div>
+            <div class="dd-thumb"><img src="../assets/fernhollow-tablet.jpg" alt="Fernhollow" loading="lazy"></div>
             <div class="dd-text"><div class="dd-title">Fernhollow</div><div class="dd-meta">Booking concept</div></div>
           </a>
           <a href="../projects/amani.html" class="dd-item">
-            <div class="dd-thumb"><img src="../assets/amani-desktop.jpg" alt="Amani Community Trust"></div>
+            <div class="dd-thumb"><img src="../assets/amani-desktop.jpg" alt="Amani Community Trust" loading="lazy"></div>
             <div class="dd-text"><div class="dd-title">Amani Community Trust</div><div class="dd-meta">Nonprofit concept</div></div>
           </a>
           <a href="../projects/pulse-analytics.html" class="dd-item">
-            <div class="dd-thumb"><img src="../assets/pulse-desktop.jpg" alt="Pulse Analytics"></div>
+            <div class="dd-thumb"><img src="../assets/pulse-desktop.jpg" alt="Pulse Analytics" loading="lazy"></div>
             <div class="dd-text"><div class="dd-title">Pulse Analytics</div><div class="dd-meta">Interaction design</div></div>
           </a>
         </div>
@@ -172,6 +172,20 @@
         <p>A documented process</p>
         <p>Twenty eight rounds of dated changelog entries track real, iterative fixes, including correctly diagnosing a navigation overflow bug caused by <span class="mono" style="font-size:0.85rem;">overflow-x: hidden</span> silently clipping content wider than its container, rather than guessing at a workaround.</p>
         <p>What I would change today: the rule based concierge handles the questions I anticipated well, but it has no graceful way to say "I do not know that" for a question outside its patterns. A real one would need that fallback before I would call it done.</p>
+
+        <div class="decision-block">
+          <div class="dq">WHY LOCAL STORAGE, NOT A REAL DATABASE</div>
+          <div class="dchain">
+            <b>Requirement:</b> a booking demo that anyone can try without creating an account or risking real data
+            <span class="darrow">→</span>
+            <b>Constraint:</b> this project was never meant to take real bookings or real payments
+            <span class="darrow">→</span>
+            <b>Decision:</b> everything persists in the browser's own local storage, per device
+            <span class="darrow">→</span>
+            <b>Consequence:</b> a visitor's demo bookings do not survive clearing browser data, and nothing here should ever be mistaken for a production booking system
+          </div>
+          <p>This was the right call for a demo meant to showcase interaction design and browser capable features. It would be the wrong call the moment this needed to take a real payment from a real guest.</p>
+        </div>
       </div>
 
       <div class="fact-list">
@@ -206,10 +220,10 @@
     <div class="wrap">
       <div class="section-label">The features <div class="rule"></div></div>
       <div class="shot-row tri" data-reveal>
-          <div class="shot-frame"><img src="../assets/fernhollow-desktop.jpg" alt="Desktop stay detail"></div>
+          <div class="shot-frame"><img src="../assets/fernhollow-desktop.jpg" alt="Desktop stay detail" loading="lazy"></div>
           <div style="display:flex; flex-direction:column; gap:0.75rem;">
-            <div class="shot-frame"><img src="../assets/fernhollow-tablet.jpg" alt="Tablet view"></div>
-            <div class="shot-frame"><img src="../assets/fernhollow-mobile.jpg" alt="Mobile view"></div>
+            <div class="shot-frame"><img src="../assets/fernhollow-tablet.jpg" alt="Tablet view" loading="lazy"></div>
+            <div class="shot-frame"><img src="../assets/fernhollow-mobile.jpg" alt="Mobile view" loading="lazy"></div>
           </div>
         </div>
         <div class="shot-caption">Desktop stay detail / Tablet view / Mobile view</div>
@@ -257,6 +271,6 @@
   </div>
 </footer>
 
-<script src="../js/main.js"></script>
+<script src="../js/main.js?v=3"></script>
 </body>
 </html>
