@@ -139,6 +139,22 @@ body main, body header{opacity:1; transition:opacity var(--dur-slow) ease;}
   .scroll-cue-line::after{animation:none; top:0;}
 }
 
+.work-archive-wrap{position:relative;}
+.margin-label{
+  display:none;
+}
+@media (min-width:1440px){
+  .margin-label{
+    display:block; position:absolute; top:0.5rem; left:-3.5rem;
+    writing-mode:vertical-rl; transform:rotate(180deg);
+    font-size:0.68rem; color:var(--ink-faint); letter-spacing:0.12em;
+    white-space:nowrap;
+  }
+}
+
+.before-after-grid{display:grid; grid-template-columns:1fr; gap:1.5rem;}
+@media (min-width:700px){ .before-after-grid{grid-template-columns:1fr 1fr;} }
+
 #scrollProgress{
   position:fixed; top:0; left:0; height:2px; background:var(--brass);
   width:0%; z-index:60; transition:width 0.1s linear;
