@@ -201,9 +201,9 @@
           }
         });
       }, { threshold: 0.15 });
-      document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+      document.querySelectorAll('[data-reveal], [data-reveal-clip]').forEach(el => io.observe(el));
     } else {
-      document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('in-view'));
+      document.querySelectorAll('[data-reveal], [data-reveal-clip]').forEach(el => el.classList.add('in-view'));
     }
 
     // animated stat counters, real numbers counting up once when scrolled into view
