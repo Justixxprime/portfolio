@@ -155,6 +155,10 @@ body main, body header{opacity:1; transition:opacity var(--dur-slow) ease;}
 .before-after-grid{display:grid; grid-template-columns:1fr; gap:1.5rem;}
 @media (min-width:700px){ .before-after-grid{grid-template-columns:1fr 1fr;} }
 
+.watch-video{border:1px solid var(--line); background:var(--ink-raised); overflow:hidden;}
+.watch-video video{width:100%; display:block; background:#000;}
+.watch-video-caption{padding:0.9rem 1.1rem; font-size:0.82rem; color:var(--ink-soft); border-top:1px solid var(--line);}
+
 #scrollProgress{
   position:fixed; top:0; left:0; height:2px; background:var(--brass);
   width:0%; z-index:60; transition:width 0.1s linear;
