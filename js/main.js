@@ -232,6 +232,71 @@
       countObserver.observe(el);
     });
 
+    // hero "BUILD" watermark: cursor-reactive spotlight, with a slow idle sweep when there's no pointer
+    const buildWrap = document.querySelector('[data-hero-build]');
+    if (buildWrap && !reduceMotion) {
+      const heroSection = buildWrap.closest('.hero');
+      const crosshair = buildWrap.querySelector('[data-build-crosshair]');
+      const coord = buildWrap.querySelector('[data-build-coord]');
+      let rect = buildWrap.getBoundingClientRect();
+      let targetX = rect.width * 0.5, targetY = rect.height * 0.4;
+      let curX = targetX, curY = targetY;
+      let pointerActive = false, lastPointerAt = 0, lastCoordAt = 0, running = false, rafId = null;
+
+      const refreshRect = () => { rect = buildWrap.getBoundingClientRect(); };
+      window.addEventListener('resize', refreshRect);
+
+      if (heroSection) {
+        heroSection.addEventListener('pointermove', (e) => {
+          targetX = e.clientX - rect.left;
+          targetY = e.clientY - rect.top;
+          pointerActive = true;
+          lastPointerAt = performance.now();
+        });
+        heroSection.addEventListener('pointerleave', () => { pointerActive = false; });
+        heroSection.addEventListener('pointerup', (e) => { if (e.pointerType === 'touch') pointerActive = false; });
+        heroSection.addEventListener('pointercancel', () => { pointerActive = false; });
+      }
+
+      function autoPath(t) {
+        const w = rect.width || 800, h = rect.height || 300;
+        const x = w * 0.5 + Math.sin(t / 3100) * w * 0.34;
+        const y = h * 0.46 + Math.sin(t / 2300 + 1.4) * h * 0.3;
+        return [x, y];
+      }
+
+      function frame(now) {
+        if (!pointerActive && now - lastPointerAt > 2200) {
+          const auto = autoPath(now);
+          targetX = auto[0]; targetY = auto[1];
+        }
+        curX += (targetX - curX) * 0.08;
+        curY += (targetY - curY) * 0.08;
+        buildWrap.style.setProperty('--mx', curX + 'px');
+        buildWrap.style.setProperty('--my', curY + 'px');
+        if (crosshair) crosshair.classList.add('is-active');
+        if (coord && now - lastCoordAt > 110) {
+          lastCoordAt = now;
+          const nx = Math.max(0, Math.min(99, Math.round((curX / (rect.width || 1)) * 99)));
+          const ny = Math.max(0, Math.min(99, Math.round((curY / (rect.height || 1)) * 99)));
+          coord.textContent = String(nx).padStart(2, '0') + ' \u00b7 ' + String(ny).padStart(2, '0');
+        }
+        if (running) rafId = requestAnimationFrame(frame);
+      }
+
+      function start() { if (!running) { running = true; lastPointerAt = performance.now() - 3000; rafId = requestAnimationFrame(frame); } }
+      function stop() { running = false; if (rafId) cancelAnimationFrame(rafId); }
+
+      if (heroSection && 'IntersectionObserver' in window) {
+        const heroObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => { entry.isIntersecting ? start() : stop(); });
+        }, { threshold: 0.05 });
+        heroObserver.observe(heroSection);
+      } else {
+        start();
+      }
+    }
+
     // custom cursor, desktop with hover support only
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       const dot = document.createElement('div');
