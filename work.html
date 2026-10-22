@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Work: Obioma Chibueze Justice</title>
-<meta name="description" content="Eleven live projects, ranging from a full backend task platform to plain hand written HTML sites with no backend at all.">
+<meta name="description" content="Fourteen projects, ranging from a full backend task platform and a healthcare access control system to plain hand written HTML sites with no backend at all.">
 <meta property="og:image" content="assets/og-image.jpg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -62,6 +62,18 @@
           <a href="projects/teaching-portfolio.html" class="dd-item">
             <div class="dd-thumb"><img src="assets/teaching-portfolio-desktop.jpg" alt="Teaching Portfolio" loading="lazy"></div>
             <div class="dd-text"><div class="dd-title">Teaching Portfolio</div><div class="dd-meta">Client system</div></div>
+          </a>
+          <a href="projects/cheliv-platform.html" class="dd-item">
+            <div class="dd-thumb"><img src="assets/work-cheliv-platform.jpg" alt="Cheliv Care Platform" loading="lazy"></div>
+            <div class="dd-text"><div class="dd-title">Cheliv Care Platform</div><div class="dd-meta">Healthcare platform</div></div>
+          </a>
+          <a href="projects/secky.html" class="dd-item">
+            <div class="dd-thumb"><img src="assets/work-secky.jpg" alt="SECKY official website" loading="lazy"></div>
+            <div class="dd-text"><div class="dd-title">SECKY Official Website</div><div class="dd-meta">Artist website</div></div>
+          </a>
+          <a href="projects/trackpoint.html" class="dd-item">
+            <div class="dd-thumb"><img src="assets/work-trackpoint.jpg" alt="Trackpoint Global Resources" loading="lazy"></div>
+            <div class="dd-text"><div class="dd-title">Trackpoint Global Resources</div><div class="dd-meta">Client site, WordPress</div></div>
           </a>
           <a href="projects/cheliv.html" class="dd-item">
             <div class="dd-thumb"><img src="assets/work-cheliv.jpg" alt="Cheliv Compassionate Care" loading="lazy"></div>
@@ -132,14 +144,14 @@
 
   <section class="page-head">
     <div class="wrap">
-      <h1>Eleven live projects, built for the range they cover.</h1>
+      <h1>Fourteen projects, built for the range they cover.</h1>
       <p>Some run on a full Postgres backend with real payment infrastructure. Others are plain hand written HTML with no backend at all. Both are the right choice, depending on what the project actually needed.</p>
     </div>
   </section>
 
   <section>
     <div class="wrap work-archive-wrap">
-      <div class="margin-label mono" aria-hidden="true">SELECTED WORK / ELEVEN PROJECTS / LAGOS, NIGERIA</div>
+      <div class="margin-label mono" aria-hidden="true">SELECTED WORK / FOURTEEN PROJECTS / LAGOS, NIGERIA</div>
       <div class="filter-row">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="saas">SaaS</button>
@@ -205,9 +217,95 @@
         </div>
       </div>
 
-      <div class="work-item" data-category="ecommerce">
+      <div class="work-item" data-category="saas">
         <button class="work-head" data-work-toggle>
           <span class="work-num mono">03</span>
+          <span class="work-title">Cheliv Care Platform</span>
+          <span class="work-meta mono">Healthcare platform <span class="chevron">▾</span></span>
+        </button>
+        <div class="work-body">
+          <div class="work-body-inner">
+            <div class="work-desc">
+              A home health platform for a Texas organization: a public site plus five role based portals (staff, caregiver, patient, family and referral partner). Access is checked on the server three ways, staff sign in with an authenticator app, documents sit behind a scan gate, and the audit log records events but never content. Development build on synthetic data only.
+              <div class="work-tags">
+                <span class="tag mono">Next.js 16</span>
+                <span class="tag mono">TypeScript</span>
+                <span class="tag mono">Prisma + PostgreSQL</span>
+                <span class="tag mono">Role based access</span>
+              </div>
+            </div>
+            <div>
+              <div class="work-links">
+                <a href="https://compassionate-care-plus.vercel.app" target="_blank" rel="noopener">Public site ↗</a>
+                <a href="https://github.com/Justixxprime/compassionate-care-plus" target="_blank" rel="noopener">GitHub ↗</a>
+                <a href="projects/cheliv-platform.html">Full case study</a>
+              </div>
+              <div class="shot-frame"><img src="assets/work-cheliv-platform.jpg" alt="Cheliv Care Platform public site" loading="lazy"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-item" data-category="business">
+        <button class="work-head" data-work-toggle>
+          <span class="work-num mono">04</span>
+          <span class="work-title">Trackpoint Global Resources</span>
+          <span class="work-meta mono">Client site, WordPress <span class="chevron">▾</span></span>
+        </button>
+        <div class="work-body">
+          <div class="work-body-inner">
+            <div class="work-desc">
+              A live, custom WordPress block theme for a Lagos procurement, supplies and logistics company, and my first WordPress project. A three step quote flow with its own spam protection, live naira exchange rates, an interactive trade lanes map, four theme modes, and more than thirty versioned releases shaped by client feedback.
+              <div class="work-tags">
+                <span class="tag mono">WordPress block theme</span>
+                <span class="tag mono">PHP</span>
+                <span class="tag mono">Vanilla JavaScript</span>
+                <span class="tag mono">Fluent Forms</span>
+              </div>
+            </div>
+            <div>
+              <div class="work-links">
+                <a href="https://trackpointglobalresources.com" target="_blank" rel="noopener">Live site ↗</a>
+                <a href="projects/trackpoint.html">Full case study</a>
+              </div>
+              <div class="shot-frame"><img src="assets/work-trackpoint.jpg" alt="Trackpoint Global Resources" loading="lazy"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-item" data-category="business">
+        <button class="work-head" data-work-toggle>
+          <span class="work-num mono">05</span>
+          <span class="work-title">SECKY Official Website</span>
+          <span class="work-meta mono">Artist website <span class="chevron">▾</span></span>
+        </button>
+        <div class="work-body">
+          <div class="work-body-inner">
+            <div class="work-desc">
+              An official website for a Nigerian Afrobeat and pop artist in the UK. An artwork led catalogue with direct Spotify and Apple Music links per release, music videos that load only on click, a cinematic dark design with motion that respects reduced motion settings, responsive WebP images and no backend. React, TypeScript and Vite, with typed content and automated data tests.
+              <div class="work-tags">
+                <span class="tag mono">React 19</span>
+                <span class="tag mono">TypeScript</span>
+                <span class="tag mono">Vite</span>
+                <span class="tag mono">Tailwind CSS 4</span>
+              </div>
+            </div>
+            <div>
+              <div class="work-links">
+                <a href="https://secky.uk" target="_blank" rel="noopener">Live site ↗</a>
+                <a href="projects/secky.html">Full case study</a>
+              </div>
+              <div class="shot-frame"><img src="assets/work-secky.jpg" alt="SECKY official website" loading="lazy"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="work-item" data-category="ecommerce">
+        <button class="work-head" data-work-toggle>
+          <span class="work-num mono">06</span>
           <span class="work-title">E Commerce Showcase Site</span>
           <span class="work-meta mono">Storefront <span class="chevron">▾</span></span>
         </button>
@@ -235,7 +333,7 @@
 
       <div class="work-item" data-category="business">
         <button class="work-head" data-work-toggle>
-          <span class="work-num mono">04</span>
+          <span class="work-num mono">07</span>
           <span class="work-title">Cheliv Compassionate Care</span>
           <span class="work-meta mono">Healthcare site <span class="chevron">▾</span></span>
         </button>
@@ -263,7 +361,7 @@
 
       <div class="work-item" data-category="business">
         <button class="work-head" data-work-toggle>
-          <span class="work-num mono">05</span>
+          <span class="work-num mono">08</span>
           <span class="work-title">First Experts Logistics</span>
           <span class="work-meta mono">Client site <span class="chevron">▾</span></span>
         </button>
@@ -289,7 +387,7 @@
 
       <div class="work-item" data-category="business">
         <button class="work-head" data-work-toggle>
-          <span class="work-num mono">06</span>
+          <span class="work-num mono">09</span>
           <span class="work-title">ShelemJ Resources</span>
           <span class="work-meta mono">Client site <span class="chevron">▾</span></span>
         </button>
@@ -315,7 +413,7 @@
 
       <div class="work-item" data-category="business">
         <button class="work-head" data-work-toggle>
-          <span class="work-num mono">07</span>
+          <span class="work-num mono">10</span>
           <span class="work-title">Teaching Portfolio</span>
           <span class="work-meta mono">Client system <span class="chevron">▾</span></span>
         </button>
@@ -342,7 +440,7 @@
 
       <div class="work-item" data-category="ecommerce">
         <button class="work-head" data-work-toggle>
-          <span class="work-num mono">08</span>
+          <span class="work-num mono">11</span>
           <span class="work-title">Stride</span>
           <span class="work-meta mono">E commerce concept <span class="chevron">▾</span></span>
         </button>
@@ -369,7 +467,7 @@
 
       <div class="work-item" data-category="business concept">
         <button class="work-head" data-work-toggle>
-          <span class="work-num mono">09</span>
+          <span class="work-num mono">12</span>
           <span class="work-title">Fernhollow</span>
           <span class="work-meta mono">Booking concept <span class="chevron">▾</span></span>
         </button>
@@ -396,7 +494,7 @@
 
       <div class="work-item" data-category="nonprofit concept">
         <button class="work-head" data-work-toggle>
-          <span class="work-num mono">10</span>
+          <span class="work-num mono">13</span>
           <span class="work-title">Amani Community Trust</span>
           <span class="work-meta mono">Nonprofit concept <span class="chevron">▾</span></span>
         </button>
@@ -422,7 +520,7 @@
 
       <div class="work-item" data-category="saas">
         <button class="work-head" data-work-toggle>
-          <span class="work-num mono">11</span>
+          <span class="work-num mono">14</span>
           <span class="work-title">Pulse Analytics Dashboard</span>
           <span class="work-meta mono">Interaction design <span class="chevron">▾</span></span>
         </button>

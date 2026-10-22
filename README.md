@@ -2,7 +2,7 @@
 
 Web Developer and Product Builder based in Lagos, Nigeria. This repository is the
 "Field Notes" rebuild of the portfolio: a static, dependency free HTML site with
-a shared design system, built to document eleven real projects honestly rather
+a shared design system, built to document fourteen real projects honestly rather
 than impressively.
 
 Live at: https://justixxprime.github.io/portfolio/
@@ -39,13 +39,16 @@ notes/                    Five real posts, migrated from the previous site
 resume.html               Web version of the CV
 contact.html              Real Web3Forms contact form
 404.html
-projects/                 One case study per project, eleven total
+projects/                 One case study per project, fourteen total
   boardly.html
   victorious-concept.html
   first-experts.html
   shelemj.html
   teaching-portfolio.html
-  cheliv.html
+  cheliv.html              (the 2025 training site)
+  cheliv-platform.html     (the Next.js care platform)
+  trackpoint.html          (WordPress client theme)
+  secky.html               (artist website, React)
   stride.html
   fernhollow.html
   amani.html
