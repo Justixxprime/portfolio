@@ -214,14 +214,14 @@
           <ul style="color:var(--ink-soft); max-width:62ch; padding-left:1.25rem; margin-top:1.5rem;">
             <li><strong style="color:var(--paper);">React 19, TypeScript, Vite and Tailwind CSS 4.</strong> A strict type check runs before every build, and the production bundle is about 77 kB of JavaScript and 9 kB of CSS after compression.</li>
             <li><strong style="color:var(--paper);">Responsive images.</strong> Each portrait is delivered as WebP at three sizes with a JPEG fallback. The hero image went from about 153 kB to between 32 and 130 kB depending on the screen, and everything below the first screen loads lazily.</li>
-            <li><strong style="color:var(--paper);">No backend at all.</strong> It is a static site, so it can be hosted for free and has almost nothing to break.</li>
+            <li><strong style="color:var(--paper);">No backend at all.</strong> It is a static site, so it needs only simple hosting and has almost nothing to break.</li>
           </ul>
           <div class="arch-chain">
             <span>Typed content files for the artist, releases and videos</span><span class="arch-arrow">↓</span>
             <span>React components that only display that content</span><span class="arch-arrow">↓</span>
             <span>Tests that check release and video data before every build</span><span class="arch-arrow">↓</span>
             <span>Vite static build</span><span class="arch-arrow">↓</span>
-            <span>Free static hosting on the artist’s own domain</span>
+            <span>Uploaded to the artist’s own hosting on secky.uk</span>
           </div>
         </div>
       </div>
@@ -255,8 +255,16 @@
       <div class="case-num-section" data-reveal>
         <span class="case-num mono">07</span>
         <div>
+          <h2 class="case-num-title">Launch: domain, hosting and search</h2>
+          <p class="case-num-body">I handled the launch myself, not only the code. That meant connecting the domain secky.uk to the hosting package, uploading the built site to the server over SFTP, checking that HTTPS worked, and testing on a phone over mobile data before announcing anything.</p>
+          <p class="case-num-body">For search, the site ships with a canonical address, a robots.txt, a sitemap.xml and social sharing tags, and I set up Google Search Console so Google can find and report on the page. The page was kept out of search until the client approved the launch, then opened up.</p>
+        </div>
+      </div>
+      <div class="case-num-section" data-reveal>
+        <span class="case-num mono">08</span>
+        <div>
           <h2 class="case-num-title">What I learned</h2>
-          <p class="case-num-body">Small projects reward discipline. With no backend and one page, the quality comes from the details: honest links, images that load fast, a player that waits to be asked, and a client who can understand what you built. I also made sure the client owns the domain and every hosting account from the start, with me added as a helper, so the site never depends on me.</p>
+          <p class="case-num-body">Small projects reward discipline. With no backend and one page, the quality comes from the details: honest links, images that load fast, a player that waits to be asked, and a client who can understand what you built.</p>
         </div>
       </div>
 
@@ -269,7 +277,7 @@
       <div class="fact-list">
         <div class="fact">
           <div class="k mono">Role</div>
-          <div class="v">Developer</div>
+          <div class="v">Designer, developer and launch owner</div>
         </div>
         <div class="fact">
           <div class="k mono">Client</div>
