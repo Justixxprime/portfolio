@@ -81,8 +81,22 @@
     updateThemeButtons(saved);
 
     document.querySelectorAll('[data-theme-set]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        applyTheme(btn.getAttribute('data-theme-set'), false);
+      btn.addEventListener('click', function (ev) {
+        var mode = btn.getAttribute('data-theme-set');
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!document.startViewTransition || reduce) { applyTheme(mode, false); return; }
+        var r = btn.getBoundingClientRect();
+        var x = ev.clientX || (r.left + r.width / 2), y = ev.clientY || (r.top + r.height / 2);
+        var end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+        document.documentElement.classList.add('theme-vt');
+        var t = document.startViewTransition(function () { applyTheme(mode, false); });
+        t.ready.then(function () {
+          document.documentElement.animate(
+            { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + end + 'px at ' + x + 'px ' + y + 'px)'] },
+            { duration: 700, easing: 'cubic-bezier(.16,.84,.28,1)', pseudoElement: '::view-transition-new(root)' }
+          );
+        }).catch(function () {});
+        t.finished.finally(function () { document.documentElement.classList.remove('theme-vt'); });
       });
     });
 
@@ -126,7 +140,7 @@
         const h = document.documentElement;
         const scrolled = h.scrollTop;
         const height = h.scrollHeight - h.clientHeight;
-        bar.style.width = height > 0 ? (scrolled / height * 100) + '%' : '0%';
+        bar.style.transform = 'scaleX(' + (height > 0 ? scrolled / height : 0) + ')';
       };
       document.addEventListener('scroll', update, { passive: true });
       update();
@@ -155,25 +169,9 @@
         active = i;
       };
       dots.forEach((d, idx) => d.addEventListener('click', () => show(idx)));
-      setInterval(() => {
-        if (!document.querySelector('.testi-stage:hover')) show((active + 1) % slides.length);
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => {
+        if (!document.querySelector('.testi-stage:hover') && !document.querySelector('.testi-stage:focus-within')) show((active + 1) % slides.length);
       }, 7000);
-    }
-
-    // work filters (archive page)
-    const filterBtns = document.querySelectorAll('[data-filter]');
-    if (filterBtns.length) {
-      filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          filterBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          const cat = btn.getAttribute('data-filter');
-          document.querySelectorAll('[data-category]').forEach(item => {
-            const show = cat === 'all' || item.getAttribute('data-category').includes(cat);
-            item.style.display = show ? '' : 'none';
-          });
-        });
-      });
     }
 
     // nav dropdown, click to open on touch, hover on desktop (css handles hover)
@@ -216,11 +214,11 @@
         entries.forEach(entry => {
           if (!entry.isIntersecting) return;
           countObserver.unobserve(el);
-          const duration = 900;
+          const duration = 1000;
           const start = performance.now();
           function tick(now) {
             const progress = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
+            const eased = 1 - Math.pow(1 - progress, 4);
             const current = Math.round(target * eased);
             el.textContent = current + suffix;
             if (progress < 1) requestAnimationFrame(tick);
@@ -248,6 +246,7 @@
 
       if (heroSection) {
         heroSection.addEventListener('pointermove', (e) => {
+          if (!running) start();
           targetX = e.clientX - rect.left;
           targetY = e.clientY - rect.top;
           pointerActive = true;
@@ -266,6 +265,7 @@
       }
 
       function frame(now) {
+        if (!pointerActive && now - lastPointerAt > 10000) { running = false; return; }
         if (!pointerActive && now - lastPointerAt > 2200) {
           const auto = autoPath(now);
           targetX = auto[0]; targetY = auto[1];
@@ -307,33 +307,36 @@
       document.body.appendChild(ring);
       document.body.classList.add('cursor-ready');
 
-      let mx = 0, my = 0, rx = 0, ry = 0;
+      let mx = 0, my = 0, rx = 0, ry = 0, looping = false;
+      const place = (el, x, y) => { el.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0) translate(-50%,-50%)'; };
+      function loop() {
+        rx += (mx - rx) * 0.2;
+        ry += (my - ry) * 0.2;
+        place(ring, rx, ry);
+        if (Math.abs(mx - rx) > 0.3 || Math.abs(my - ry) > 0.3) requestAnimationFrame(loop); else looping = false;
+      }
       document.addEventListener('mousemove', (e) => {
         mx = e.clientX; my = e.clientY;
-        dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-      });
-      function loop() {
-        rx += (mx - rx) * 0.18;
-        ry += (my - ry) * 0.18;
-        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-        requestAnimationFrame(loop);
-      }
-      loop();
+        place(dot, mx, my);
+        if (!looping) { looping = true; requestAnimationFrame(loop); }
+      }, { passive: true });
 
-      document.querySelectorAll('a, button, [data-magnetic]').forEach(el => {
-        el.addEventListener('mouseenter', () => ring.classList.add('hover'));
-        el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+      document.addEventListener('mouseover', (e) => {
+        ring.classList.toggle('hover', !!(e.target.closest && e.target.closest('a, button, [data-magnetic], .work-head')));
       });
 
-      // magnetic buttons
+      // magnetic buttons: desktop only, max 8px pull, springs back
       document.querySelectorAll('[data-magnetic]').forEach(el => {
         el.addEventListener('mousemove', (e) => {
           const r = el.getBoundingClientRect();
-          const relX = e.clientX - r.left - r.width / 2;
-          const relY = e.clientY - r.top - r.height / 2;
-          el.style.transform = `translate(${relX * 0.25}px, ${relY * 0.35}px)`;
+          const cl = (v) => Math.max(-8, Math.min(8, v));
+          el.style.transition = 'transform 0.12s ease-out';
+          el.style.transform = 'translate(' + cl((e.clientX - r.left - r.width / 2) * 0.2) + 'px,' + cl((e.clientY - r.top - r.height / 2) * 0.25) + 'px)';
         });
-        el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+        el.addEventListener('mouseleave', () => {
+          el.style.transition = 'transform 0.5s cubic-bezier(.34,1.56,.64,1)';
+          el.style.transform = '';
+        });
       });
     }
   });

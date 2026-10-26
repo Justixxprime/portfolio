@@ -18,10 +18,10 @@ run in ten years with zero maintenance.
 
 - HTML5, semantic where it matters
 - One shared stylesheet: `css/style.css`
-- One shared script: `js/main.js`
+- Two shared scripts: `js/main.js` (theme, menu, counters, command palette) and `js/motion.js` (flow diagrams, video frames, lightbox, archive search, page polish)
 - Fraunces (display), Newsreader (body), JetBrains Mono (technical labels),
   loaded from Google Fonts
-- Font Awesome, loaded from a CDN, for social and brand icons only
+- One inline SVG sprite, `assets/icons.svg`: Lucide (ISC) for interface icons, Simple Icons (CC0) for brands and social. No icon fonts, no CDN. See `ICON-GUIDE.md`
 - A real service worker (`service-worker.js`) for installability
 - A real four mode theme system: dark, light, matched to device, matched to
   local time using actual solar position math
@@ -55,8 +55,13 @@ projects/                 One case study per project, fourteen total
   pulse-analytics.html
   ecommerce-showcase.html
 css/style.css             The whole design system, one file
-js/main.js                Nav, theme switching, scroll reveal, cursor,
-                           magnetic buttons, command palette (Ctrl+K)
+js/main.js                Theme switching, menu, scroll reveal, counters,
+                           cursor, magnetic buttons, command palette (Ctrl+K)
+js/motion.js              Flow diagrams, video frames, lightbox, compare slider,
+                           archive search and FLIP, mini bar, contact form
+assets/icons.svg          The icon sprite
+assets/video/             Drop real footage here (see ASSETS-NEEDED.md)
+scripts/audit-counts.mjs  Local tool: re-check page counts from the repositories
 assets/                   Real screenshots, two real hero videos, icons,
                            the CV in both docx and PDF
 manifest.json             PWA manifest
@@ -113,3 +118,11 @@ editing the DOCX directly, so the two stay in sync.
   browser session by anyone other than the person reading this.
 - No automated tests exist. Verification so far has been manual: dash
   checks, HTML tag balance checks, and visual review of the rendered CV.
+
+## Counts and labels
+
+The portfolio documents fourteen projects. Page counts are verified from the repositories on 21 to 23 October 2026 (a page is a real HTML page a visitor can reach, excluding 404.html, partials and admin tools): First Experts Logistics 23, ShelemJ Resources 20, Amani Community Trust 22, the individual support practice site more than 30. Fernhollow, Stride and Pulse Analytics are not given a number until confirmed. Re-check any time with `node scripts/audit-counts.mjs <folder of repos>`. See `COUNTS-REPORT.md`.
+
+## Releasing
+
+Bump `VERSION` in `service-worker.js` and the `?v=` number on the stylesheet and scripts on every release, so old caches are replaced.
