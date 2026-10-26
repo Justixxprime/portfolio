@@ -1,0 +1,72 @@
+/* Stage layer: counter loader, labelled cursor, pinned project rail, statement reveal.
+   Everything here is progressive: without JS or under reduced motion the content still reads. */
+
+/* ---------- counter loader ---------- */
+html.ld .hero h1 .wi{animation-play-state:paused;}
+#loader{position:fixed; inset:0; z-index:400; background:var(--ink); color:var(--paper); display:grid; grid-template-rows:auto 1fr auto; padding:clamp(1.25rem,3vw,2.5rem); clip-path:inset(0 0 0 0); will-change:clip-path;}
+#loader .ld-top, #loader .ld-bot{display:flex; justify-content:space-between; gap:1rem; font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-soft);}
+#loader .ld-mid{display:grid; place-items:center;}
+#loader .ld-count{font-family:'Fraunces',serif; font-weight:300; font-size:clamp(7rem,30vw,26rem); line-height:0.8; letter-spacing:-0.04em; font-variant-numeric:tabular-nums; display:flex; align-items:flex-start;}
+#loader .ld-count sup{font-size:0.18em; margin:0.45em 0 0 0.15em; color:var(--brass); letter-spacing:0;}
+#loader .ld-bar{height:2px; background:var(--line); margin-top:1rem; overflow:hidden;}
+#loader .ld-bar i{display:block; height:100%; width:100%; background:var(--brass); transform:scaleX(0); transform-origin:left;}
+#loader .ld-skip{background:none; border:1px solid var(--line); color:var(--ink-soft); font:inherit; letter-spacing:inherit; text-transform:inherit; padding:0.35rem 0.7rem; cursor:pointer;}
+#loader .ld-skip:hover{color:var(--paper); border-color:var(--brass);}
+
+/* ---------- labelled cursor ---------- */
+#cursorRing::after{content:attr(data-label); position:absolute; inset:0; display:grid; place-items:center; font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:#15140F; opacity:0; transform:scale(0.6); transition:opacity var(--dur-fast) ease, transform var(--dur-fast) var(--ease-out);}
+#cursorRing.label{width:88px; height:88px; background:var(--brass); border-color:var(--brass); mix-blend-mode:normal;}
+#cursorRing.label::after{opacity:1; transform:none;}
+body.has-label #cursorDot{opacity:0;}
+
+/* ---------- pinned project rail ---------- */
+.rail{position:relative; overflow:hidden; border-top:1px solid var(--line); padding:clamp(4rem,9vw,8rem) 0 clamp(3rem,6vw,5rem);}
+.rail-head{width:100%; box-sizing:border-box; max-width:var(--wrap-w); margin:0 auto; padding:0 24px; display:grid; gap:1.2rem; margin-bottom:clamp(2rem,4vw,3.5rem);}
+.rail-kicker{font-family:'JetBrains Mono',monospace; font-size:0.75rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--brass-text,var(--brass)); display:flex; align-items:center; gap:0.8rem;}
+.rail-kicker::after{content:""; height:1px; flex:1; background:var(--line);}
+.rail-title{font-family:'Fraunces',serif; font-weight:300; font-size:clamp(2.6rem,8vw,7.5rem); line-height:0.95; letter-spacing:-0.035em; margin:0; max-width:14ch;}
+.rail-title em{font-style:italic; color:var(--brass-text,var(--brass));}
+.rail-title .ch{display:inline-block; will-change:transform;}
+.rail-hint{font-size:0.9rem; color:var(--ink-soft); max-width:46ch; margin:0;}
+.rail-viewport{overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding:0 24px 1rem; scrollbar-width:thin;}
+.rail-track{display:flex; gap:clamp(1rem,2.4vw,2rem); width:max-content; padding-right:24px;}
+.rail-card{position:relative; flex:none; width:min(82vw,520px); scroll-snap-align:start; color:inherit; text-decoration:none; display:block;}
+.rail-card .rc-media{position:relative; aspect-ratio:16/10; overflow:hidden; border:1px solid var(--line); background:#0B0A07; border-radius:4px;}
+.rail-card video, .rail-card .rc-media img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.9s var(--ease-out), filter 0.5s ease; filter:saturate(0.85);}
+.rail-card:hover video, .rail-card:hover img, .rail-card:focus-visible video{transform:scale(1.045); filter:saturate(1.05);}
+.rail-card .rc-num{position:absolute; top:0.8rem; left:0.9rem; z-index:2; font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.12em; color:#F2EEE3; background:rgba(14,13,9,0.62); padding:0.2rem 0.5rem; backdrop-filter:blur(6px);}
+.rail-card .rc-status{position:absolute; top:0.8rem; right:0.9rem; z-index:2; font-family:'JetBrains Mono',monospace; font-size:0.66rem; letter-spacing:0.12em; text-transform:uppercase; color:#15140F; background:var(--brass); padding:0.2rem 0.5rem;}
+.rail-card .rc-meta{display:flex; align-items:baseline; justify-content:space-between; gap:1rem; margin-top:1rem;}
+.rail-card .rc-title{font-family:'Fraunces',serif; font-size:clamp(1.5rem,2.6vw,2.2rem); line-height:1.05; letter-spacing:-0.02em; margin:0; color:var(--paper);}
+.rail-card .rc-arrow{width:34px; height:34px; border:1px solid var(--line); border-radius:50%; display:grid; place-items:center; flex:none; transition:background 0.3s ease, color 0.3s ease, transform 0.4s var(--ease-out);}
+.rail-card:hover .rc-arrow{background:var(--brass); color:#15140F; transform:rotate(-45deg); border-color:var(--brass);}
+.rail-card .rc-desc{margin:0.35rem 0 0; color:var(--ink-soft); font-size:0.92rem;}
+.rail-progress{width:100%; box-sizing:border-box; max-width:var(--wrap-w); margin:clamp(1.5rem,3vw,2.5rem) auto 0; padding:0 24px; display:none; align-items:center; gap:1rem; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--ink-soft); letter-spacing:0.1em;}
+.rail-progress .bar{flex:1; height:2px; background:var(--line); overflow:hidden;}
+.rail-progress .bar i{display:block; height:100%; background:var(--brass); transform:scaleX(0); transform-origin:left;}
+
+/* when GSAP pins the rail (desktop) the native scroller becomes a plain track */
+.rail.is-pinned .rail-viewport{overflow:visible; scroll-snap-type:none; padding-bottom:0;}
+.rail.is-pinned .rail-progress{display:flex;}
+.rail.is-pinned{min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding-top:clamp(2rem,4vw,3.5rem); padding-bottom:clamp(2rem,4vw,3rem);}
+.rail.is-pinned .rail-title{font-size:clamp(2.4rem,6vw,5.5rem);}
+.rail.is-pinned .rail-card{width:min(44vw,640px);}
+
+/* ---------- statement (words light up as you scroll) ---------- */
+.statement{padding:clamp(5rem,12vw,11rem) 0; border-top:1px solid var(--line);}
+.statement p{font-family:'Fraunces',serif; font-weight:300; font-size:clamp(1.9rem,5.4vw,4.6rem); line-height:1.08; letter-spacing:-0.03em; max-width:22ch; margin:0;}
+.statement p .w{display:inline-block; opacity:0.18; transition:none; margin-right:0.22em;}
+.statement p .w.hl{font-style:italic; color:var(--brass-text,var(--brass));}
+.statement .st-meta{margin-top:2rem; font-family:'JetBrains Mono',monospace; font-size:0.74rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-soft);}
+
+/* ---------- marquee polish: solid word in the right theme colour, bolder outline ---------- */
+.marquee-track span{-webkit-text-stroke:1.2px var(--paper); opacity:0.9;}
+.marquee-track span:nth-child(4n+1){opacity:1;}
+
+/* ---------- scroll progress hairline ---------- */
+#scrollBar{position:fixed; top:0; left:0; right:0; height:2px; background:var(--brass); transform:scaleX(0); transform-origin:left; z-index:120; pointer-events:none;}
+
+@media (prefers-reduced-motion: reduce){
+  #loader, #scrollBar{display:none !important;}
+  .statement p .w{opacity:1;}
+}

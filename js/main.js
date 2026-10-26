@@ -3,7 +3,12 @@
 (function () {
   // register service worker for real installability (top level pages only,
   // registration persists site wide once the browser has seen it)
-  if ('serviceWorker' in navigator && !location.pathname.includes('/projects/') && !location.pathname.includes('/notes/')) {
+  var DEV = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.protocol === 'file:';
+  if ('serviceWorker' in navigator && DEV) {
+    // local dev: never let a service worker serve stale CSS/JS; remove any left from earlier runs
+    navigator.serviceWorker.getRegistrations().then(function (rs) { rs.forEach(function (r) { r.unregister(); }); }).catch(function () {});
+    if (window.caches) caches.keys().then(function (ks) { ks.forEach(function (k) { if (k.indexOf('obioma-portfolio') === 0) caches.delete(k); }); }).catch(function () {});
+  } else if ('serviceWorker' in navigator && !location.pathname.includes('/projects/') && !location.pathname.includes('/notes/')) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./service-worker.js', { scope: './' }).catch(() => {});
     });

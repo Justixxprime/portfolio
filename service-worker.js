@@ -1,9 +1,9 @@
 // Service worker: installability plus a safe offline fallback.
 // HTML is network first, so a case study is never served stale while online.
 // Static assets are cache first. Bump VERSION on every release: old caches are deleted on activate.
-const VERSION = '2026-10-25-v4';
+const VERSION = '2026-10-26-v5';
 const CACHE_NAME = 'obioma-portfolio-' + VERSION;
-const CORE_ASSETS = ['./', './index.html', './work.html', './404.html', './css/style.css?v=4', './js/main.js?v=4', './js/motion.js?v=4', './assets/icons.svg', './manifest.json'];
+const CORE_ASSETS = ['./', './index.html', './work.html', './404.html', './css/style.css?v=5', './js/main.js?v=5', './js/motion.js?v=5', './assets/icons.svg', './manifest.json'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS)).catch(() => {}));
@@ -28,6 +28,16 @@ self.addEventListener('fetch', (event) => {
         if (res && res.status === 200) { const copy = res.clone(); caches.open(CACHE_NAME).then((c) => c.put(req, copy)); }
         return res;
       }).catch(() => caches.match(req).then((c) => c || caches.match('./404.html') || caches.match('./index.html')))
+    );
+    return;
+  }
+  if (/\.(css|js)(\?|$)/i.test(req.url)) {
+    // code is network first so a deploy always wins; cache is only the offline fallback
+    event.respondWith(
+      fetch(req).then((res) => {
+        if (res && res.status === 200) { const copy = res.clone(); caches.open(CACHE_NAME).then((c) => c.put(req, copy)); }
+        return res;
+      }).catch(() => caches.match(req))
     );
     return;
   }
