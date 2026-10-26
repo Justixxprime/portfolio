@@ -36,7 +36,8 @@
 <meta name="theme-color" content="#15140F">
 <link rel="canonical" href="https://justixxprime.github.io/portfolio/skills.html">
 <link rel="stylesheet" href="css/style.css?v=5">
-<link rel="stylesheet" href="css/stage.css?v=5">
+<link rel="stylesheet" href="css/stage.css?v=6">
+<link rel="stylesheet" href="css/skills-stage.css?v=1">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -146,12 +147,60 @@
 
 <main id="main">
 
-  <section class="page-head">
-    <div class="wrap">
-      <h1>What I actually use, and where.</h1>
-      <p>No percentage bars. A skill only earns a place here if a real project on this site actually uses it.</p>
+  <section class="skill-intro page-head">
+    <div class="wrap skill-intro-grid">
+      <div class="skill-intro-copy">
+        <div class="skill-eyebrow"><span class="skill-live-dot"></span> THE WORKING TOOLKIT <span>01 / 04</span></div>
+        <h1>I make the <em>whole thing</em> work.</h1>
+        <p class="skill-deck">From the first sketch to the last deployment detail, I connect design, code and the real needs behind a product.</p>
+        <div class="skill-intro-links"><a class="skill-primary-link" href="work.html">Explore the work <span aria-hidden="true">↗</span></a><span class="skill-proof-note">No invented ratings. No percentage bars. Just tools in context.</span></div>
+      </div>
+      <div class="skill-orbit" aria-label="Connected areas of work">
+        <div class="orbit-ring orbit-ring-a"></div><div class="orbit-ring orbit-ring-b"></div>
+        <div class="orbit-core"><span>OJ</span><small>BUILD<br>WITH INTENT</small></div>
+        <span class="orbit-chip orbit-chip-one">INTERFACE</span><span class="orbit-chip orbit-chip-two">SYSTEMS</span><span class="orbit-chip orbit-chip-three">STORY</span><span class="orbit-chip orbit-chip-four">SHIPPING</span>
+        <span class="orbit-cross orbit-cross-a">+</span><span class="orbit-cross orbit-cross-b">+</span>
+      </div>
     </div>
   </section>
+
+  <section class="skill-explorer" aria-labelledby="skillExplorerTitle">
+    <div class="wrap">
+      <div class="skill-section-top"><div><div class="skill-eyebrow">THE PRACTICE</div><h2 id="skillExplorerTitle">Different disciplines.<br><em>One connected craft.</em></h2></div><p>Choose a discipline to see how it shows up in real projects. Every path leads to work, not a made up score.</p></div>
+      <div class="skill-filter" role="group" aria-label="Filter capabilities">
+        <button type="button" class="is-active" data-skill-filter="all" aria-pressed="true">Everything <span>04</span></button>
+        <button type="button" data-skill-filter="interface" aria-pressed="false">Interfaces <span>01</span></button>
+        <button type="button" data-skill-filter="systems" aria-pressed="false">Systems <span>02</span></button>
+        <button type="button" data-skill-filter="delivery" aria-pressed="false">Delivery <span>03</span></button>
+        <button type="button" data-skill-filter="creative" aria-pressed="false">Creative work <span>04</span></button>
+      </div>
+      <div class="skill-feature-grid">
+        <article class="skill-feature" data-skill-card="interface" tabindex="0">
+          <div class="skill-feature-top"><span class="skill-feature-number">01</span><span class="skill-feature-mark" aria-hidden="true">↗</span></div>
+          <div class="skill-feature-art skill-art-interface"><div class="art-window"><div class="art-window-bar"><i></i><i></i><i></i><span>the interface</span></div><div class="art-window-body"><div class="art-bigline"></div><div class="art-line"></div><div class="art-line short"></div><div class="art-image-block"></div><div class="art-button"></div></div></div></div>
+          <div class="skill-feature-body"><div class="skill-feature-kicker">DESIGN TO INTERACTION</div><h3>Interfaces with a point of view.</h3><p>Semantic HTML, responsive CSS, JavaScript and React. Interfaces should feel considered, move naturally and work on the devices people actually use.</p><a href="projects/stride.html">See the Stride experience <span>↗</span></a></div>
+        </article>
+        <article class="skill-feature" data-skill-card="systems" tabindex="0">
+          <div class="skill-feature-top"><span class="skill-feature-number">02</span><span class="skill-feature-mark" aria-hidden="true">↗</span></div>
+          <div class="skill-feature-art skill-art-systems"><div class="system-node node-a">UI</div><div class="system-node node-b">DATA</div><div class="system-node node-c">RULES</div><div class="system-node node-d">API</div><svg viewBox="0 0 320 180" aria-hidden="true"><path d="M68 42 L158 85 L252 42 M158 85 L68 137 M158 85 L252 137"/></svg><div class="system-center">CONNECTED<br>BY DESIGN</div></div>
+          <div class="skill-feature-body"><div class="skill-feature-kicker">DATA TO DECISIONS</div><h3>Systems that hold together.</h3><p>Supabase, PostgreSQL, authentication, access control, serverless functions and integrations. The invisible parts deserve the same care as the visible ones.</p><a href="projects/boardly.html">Explore Boardly <span>↗</span></a></div>
+        </article>
+        <article class="skill-feature" data-skill-card="delivery" tabindex="0">
+          <div class="skill-feature-top"><span class="skill-feature-number">03</span><span class="skill-feature-mark" aria-hidden="true">↗</span></div>
+          <div class="skill-feature-art skill-art-delivery"><div class="delivery-terminal"><div><span class="terminal-dot"></span> RELEASE NOTES</div><p><b>01</b> Build with intent</p><p><b>02</b> Test the real paths</p><p><b>03</b> Ship with care</p><div class="terminal-progress"><i></i></div><small>DEPLOYMENT IS PART OF THE PRODUCT</small></div></div>
+          <div class="skill-feature-body"><div class="skill-feature-kicker">FROM LOCAL TO LIVE</div><h3>Details through delivery.</h3><p>Git, GitHub, Vercel, GitHub Pages and WordPress workflows. A project is not finished when it looks right on one machine.</p><a href="projects/trackpoint.html">See Trackpoint <span>↗</span></a></div>
+        </article>
+        <article class="skill-feature" data-skill-card="creative" tabindex="0">
+          <div class="skill-feature-top"><span class="skill-feature-number">04</span><span class="skill-feature-mark" aria-hidden="true">↗</span></div>
+          <div class="skill-feature-art skill-art-creative"><div class="creative-type">MAKE<br><em>IT</em><br>MEAN.</div><div class="creative-stamp">STRATEGY<br>MEETS<br>STORY</div><div class="creative-ruler"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="skill-feature-body"><div class="skill-feature-kicker">WORDS, VISUALS, CONTEXT</div><h3>Digital work with a human pulse.</h3><p>Content strategy, social media, SEO structure and visual storytelling. The experience starts before a visitor clicks and continues after they leave.</p><a href="projects/first-experts.html">See First Experts <span>↗</span></a></div>
+        </article>
+      </div>
+      <p class="skill-filter-status" aria-live="polite">Showing all four capability areas.</p>
+    </div>
+  </section>
+
+  <section class="page-head skill-detail-head"><div class="wrap"><div class="skill-eyebrow">UNDER THE SURFACE</div><h2>The tools, with <em>receipts.</em></h2><p>Specific technologies and the projects where they are used. The detail below stays available even if the interactive layer is turned off.</p></div></section>
 
   <section style="border-top:none;">
     <div class="wrap">
@@ -367,5 +416,6 @@
 <script src="js/motion.js?v=5"></script>
 <script src="js/wow.js?v=5"></script>
 <script src="js/stage.js?v=5"></script>
+<script src="js/skills-stage.js" defer></script>
 </body>
 </html>

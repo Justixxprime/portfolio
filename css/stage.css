@@ -93,3 +93,23 @@ body.has-label #cursorDot{opacity:0;}
 .next-project:hover .np-t{transform:translateX(0.6rem);}
 .next-project:hover .np-a{transform:rotate(-45deg);}
 @media (prefers-reduced-motion: reduce){ .next-project::before{transition:none;} }
+
+/* ---------- cross-page editorial finish ---------- */
+:where(.page-head, #about-teaser, #contact, .role-item, .timeline, .about-copy, .case-study, .project-hero, .work-item) img{backface-visibility:hidden;}
+.page-head .wrap{position:relative;}
+.page-head h1:not(.freight-h1){text-wrap:balance;}
+.page-head p{line-height:1.55;}
+.role-item,.tl-item,.about-copy p,.work-item,.project-section,.case-section{transition:border-color .35s ease;}
+.role-item{padding-block:clamp(1.5rem,3vw,2.6rem);}
+.role-item .role-title{font-family:'Fraunces',serif;letter-spacing:-.025em;}
+.role-item .role-desc{max-width:68ch;line-height:1.7;}
+.about-grid{align-items:start;gap:clamp(2rem,6vw,6rem);}
+.about-copy p{line-height:1.75;}
+.about-portrait,.project-hero-media,.work-item .work-media,.case-visual,.reel-frame{overflow:hidden;isolation:isolate;}
+.about-portrait img,.project-hero-media img,.work-item .work-media img,.case-visual img{transition:transform 1s cubic-bezier(.2,.7,.2,1),filter .7s ease;}
+.about-portrait:hover img,.project-hero-media:hover img,.work-item:hover .work-media img,.case-visual:hover img{transform:scale(1.025);}
+:where(a,button,input,textarea,select,[tabindex]):focus-visible{outline:2px solid var(--brass);outline-offset:4px;}
+:where(.hero-actions a,.button,.btn,.contact-link){transition:transform .3s ease,background-color .3s ease,color .3s ease,border-color .3s ease;}
+:where(.hero-actions a,.button,.btn,.contact-link):hover{transform:translateY(-2px);}
+@media(max-width:760px){.page-head{padding-top:clamp(3.5rem,16vw,5rem)}.role-item .role-top{gap:1rem;flex-wrap:wrap}.about-grid{gap:2rem}}
+@media(prefers-reduced-motion:reduce){.about-portrait img,.project-hero-media img,.work-item .work-media img,.case-visual img,:where(.hero-actions a,.button,.btn,.contact-link){transition:none}.about-portrait:hover img,.project-hero-media:hover img,.work-item:hover .work-media img,.case-visual:hover img,:where(.hero-actions a,.button,.btn,.contact-link):hover{transform:none}}
