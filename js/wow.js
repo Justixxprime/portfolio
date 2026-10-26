@@ -44,6 +44,7 @@
   /* ---------- gentle parallax on screenshots ---------- */
   $$('.shot-frame:not(.is-phone) img, .browser-frame img').forEach(function (img) {
     var host = img.closest('.shot-frame, .browser-frame'); if (!host) return;
+    if (!img.parentNode.classList.contains('px-clip')) { var clip = doc.createElement('div'); clip.className = 'px-clip'; img.parentNode.insertBefore(clip, img); clip.appendChild(img); }
     gsap.fromTo(img, { yPercent: -2.5, scale: 1.05 }, { yPercent: 2.5, scale: 1.05, ease: 'none', scrollTrigger: { trigger: host, start: 'top bottom', end: 'bottom top', scrub: true } });
   });
 
