@@ -1,0 +1,134 @@
+/* ==========================================================================
+   studio.css  (batch 02)  Shared layer loaded on every page, after stage.css.
+   Holds: documented design tokens, accessibility floor (focus, safe areas,
+   reduced motion, touch targets), the site-wide Project Index overlay, and
+   next-project previews. Tokens are documented in docs/design-system.md.
+   Palette stays Ink #15140F, Paper #F2EEE3, Brass #B8863A (defined in style.css).
+   ========================================================================== */
+
+/* ---------- 1. DESIGN TOKENS ---------- */
+:root{
+  /* Fluid type scale (min, fluid, max). Display uses Fraunces, reading uses Newsreader, labels use JetBrains Mono. */
+  --fs-label:  clamp(0.72rem, 0.70rem + 0.10vw, 0.78rem);
+  --fs-small:  clamp(0.88rem, 0.85rem + 0.15vw, 0.95rem);
+  --fs-body:   clamp(1.02rem, 0.98rem + 0.20vw, 1.14rem);
+  --fs-lead:   clamp(1.2rem, 1.05rem + 0.75vw, 1.6rem);
+  --fs-h3:     clamp(1.4rem, 1.15rem + 1.2vw, 2.1rem);
+  --fs-h2:     clamp(2rem, 1.4rem + 3vw, 3.9rem);
+  --fs-h1:     clamp(2.6rem, 1.4rem + 6vw, 7rem);
+  --lh-tight:1.04; --lh-head:1.12; --lh-body:1.6;
+  --track-display:-0.03em; --track-label:0.08em;
+  --measure: 64ch;            /* reading line length */
+  --measure-head: 16ch;       /* default heading width */
+
+  /* Spacing, gutters, sections, widths */
+  --space-1:0.25rem; --space-2:0.5rem; --space-3:0.75rem; --space-4:1rem;
+  --space-5:1.5rem;  --space-6:2.5rem; --space-7:4rem;    --space-8:6rem;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-y: clamp(4rem, 9vw, 8rem);
+  --grid-gap: clamp(1rem, 2.4vw, 2rem);
+  --content-w: 1180px;        /* matches --wrap-w in style.css */
+  --content-wide: 1520px;
+
+  /* Borders and focus */
+  --border: 1px solid var(--line);
+  --radius-s:2px; --radius-m:4px;
+  --focus-color:#D6A855;      /* brass bright, 7:1 on Ink */
+  --focus-ring: 2px solid var(--focus-color);
+  --focus-offset: 3px;
+
+  /* Motion. Principles: fast in, slow out; distances under 24px; nothing loops; user action answers with motion. */
+  --dur-instant:0.12s; --dur-1:0.2s; --dur-2:0.4s; --dur-3:0.7s; --dur-4:1.1s;
+  --ease-standard:cubic-bezier(.2,.0,.0,1);
+  --ease-out-soft:cubic-bezier(.16,.84,.28,1);
+  --ease-in-out:cubic-bezier(.76,0,.24,1);
+
+  /* Layers */
+  --z-base:1; --z-header:50; --z-cursor:200; --z-cmdk:300; --z-index-overlay:340; --z-loader:400;
+
+  /* Media aspect ratios */
+  --ar-shot:16/10; --ar-video:16/9; --ar-cine:21/9; --ar-phone:9/19.5; --ar-og:1200/630;
+
+  /* Breakpoints (CSS cannot read variables inside media queries, so these are the agreed values):
+     sm 480px, md 768px, lg 900px (menu switch), xl 1200px, 2xl 1520px */
+}
+[data-theme="light"]{ --focus-color:#7A5413; } /* darker brass, 5.6:1 on light paper */
+
+/* ---------- 2. ACCESSIBILITY AND DEVICE FLOOR ---------- */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible{
+  outline: var(--focus-ring); outline-offset: var(--focus-offset); border-radius: var(--radius-s);
+}
+:where(h1, h2, h3){ text-wrap: balance; }
+:where(p, li){ text-wrap: pretty; }
+::selection{ background: var(--brass); color: #15140F; }
+html{ -webkit-text-size-adjust:100%; }
+/* Notches and home indicators (the viewport meta carries viewport-fit=cover) */
+body{ padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); padding-bottom: env(safe-area-inset-bottom); }
+header{ padding-top: env(safe-area-inset-top); }
+/* Comfortable touch targets without changing the desktop look */
+@media (pointer:coarse){
+  .theme-btn, .menu-btn, .close-btn, .sx-trigger{ min-width:44px; min-height:44px; }
+  .theme-btn{ display:inline-grid; place-items:center; }
+}
+/* Reduced motion: a single global safety net. Movement becomes an instant state change. */
+@media (prefers-reduced-motion: reduce){
+  :root{ --dur-instant:0.01ms; --dur-1:0.01ms; --dur-2:0.01ms; --dur-3:0.01ms; --dur-4:0.01ms; }
+  html{ scroll-behavior:auto; }
+  *, *::before, *::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
+
+/* ---------- 3. PROJECT INDEX (site wide signature) ---------- */
+.sx-trigger{ display:inline-flex; align-items:center; gap:0.5rem; background:none; border:var(--border); color:var(--paper); font:inherit; font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:var(--track-label); padding:0.45rem 0.8rem; cursor:pointer; border-radius:var(--radius-m); transition:border-color var(--dur-1) ease, background var(--dur-1) ease, color var(--dur-1) ease; }
+.sx-trigger:hover{ border-color:var(--brass); }
+.sx-trigger[aria-expanded="true"]{ background:var(--brass); color:#15140F; border-color:var(--brass); }
+.sx-trigger .ic{ width:16px; height:16px; }
+
+html.sx-lock{ overflow:hidden; }
+.sx-index{ position:fixed; inset:0; grid-template-columns:minmax(0,1fr); width:100%; max-width:100vw; box-sizing:border-box; z-index:var(--z-index-overlay); background:var(--ink); color:var(--paper); display:grid; grid-template-rows:auto minmax(0,1fr) auto;
+  padding: max(env(safe-area-inset-top),0px) max(var(--gutter),env(safe-area-inset-right)) max(env(safe-area-inset-bottom),0px) max(var(--gutter),env(safe-area-inset-left));
+  clip-path: inset(0 0 100% 0); visibility:hidden; transition: clip-path var(--dur-3) var(--ease-in-out), visibility 0s linear var(--dur-3); }
+.sx-index.is-open{ clip-path: inset(0 0 0 0); visibility:visible; transition: clip-path var(--dur-3) var(--ease-in-out), visibility 0s; }
+.sx-head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1.1rem 0; border-bottom:var(--border); }
+.sx-title{ margin:0; font-family:'Fraunces',serif; font-weight:400; font-size:var(--fs-h3); letter-spacing:var(--track-display); }
+.sx-close{ display:inline-flex; align-items:center; gap:0.5rem; background:none; border:var(--border); color:var(--paper); font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:var(--track-label); padding:0.5rem 0.9rem; cursor:pointer; border-radius:var(--radius-m); min-height:44px; }
+.sx-close:hover{ border-color:var(--brass); }
+.sx-body{ display:grid; grid-template-columns:minmax(0,1fr); gap:var(--grid-gap); min-height:0; padding:1.25rem 0; }
+.sx-list{ list-style:none; margin:0; padding:0; overflow-y:auto; overscroll-behavior:contain; min-height:0; }
+.sx-list li{ border-bottom:var(--border); min-width:0; }
+.sx-item > span{ min-width:0; overflow-wrap:anywhere; }
+.sx-head > *{ min-width:0; }
+.sx-item{ display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; gap:1rem; padding:0.7rem 0; color:inherit; text-decoration:none; }
+.sx-thumb{ width:84px; aspect-ratio:var(--ar-shot); object-fit:cover; border:var(--border); border-radius:var(--radius-s); background:#0B0A07; }
+.sx-name{ display:block; font-family:'Fraunces',serif; font-weight:300; font-size:clamp(1.5rem, 1.1rem + 2.2vw, 2.7rem); line-height:var(--lh-tight); letter-spacing:var(--track-display); transition:transform var(--dur-2) var(--ease-out-soft), color var(--dur-1) ease; }
+.sx-meta{ display:block; margin-top:0.2rem; font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:0.04em; color:var(--ink-soft); }
+.sx-item:hover .sx-name, .sx-item:focus-visible .sx-name{ transform:translateX(0.5rem); color:var(--brass-bright); }
+.sx-item[aria-current="page"] .sx-name{ font-style:italic; }
+.sx-preview{ display:none; }
+.sx-pages{ display:flex; flex-wrap:wrap; gap:0.5rem 1.5rem; padding:1rem 0 1.25rem; border-top:var(--border); font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:var(--track-label); }
+.sx-pages a{ color:var(--ink-soft); text-decoration:none; padding:0.35rem 0; min-height:32px; display:inline-flex; align-items:center; }
+.sx-pages a:hover, .sx-pages a[aria-current="page"]{ color:var(--paper); text-decoration:underline; text-decoration-color:var(--brass); text-underline-offset:0.35em; }
+@media (min-width:900px){
+  .sx-body{ grid-template-columns: minmax(0,1.05fr) minmax(0,1fr); gap:clamp(2rem,5vw,5rem); }
+  .sx-thumb{ display:none; }
+  .sx-item{ grid-template-columns:1fr; padding:0.35rem 0; }
+  .sx-item > span{ display:flex; justify-content:space-between; align-items:baseline; gap:1rem; }
+  .sx-name{ font-size:clamp(1.25rem, 3.5vh, 2.3rem); }
+  .sx-meta{ margin-top:0; text-align:right; flex:none; white-space:nowrap; }
+  .sx-state{ display:none; }
+  .sx-preview{ display:block; align-self:center; margin:0; }
+  .sx-frame{ position:relative; aspect-ratio:var(--ar-shot); border:var(--border); border-radius:var(--radius-m); overflow:hidden; background:#0B0A07; }
+  .sx-frame img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity var(--dur-2) ease; }
+  .sx-frame img.is-on{ opacity:1; }
+  .sx-cap{ margin-top:0.9rem; display:flex; justify-content:space-between; gap:1rem; align-items:baseline; font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); letter-spacing:0.04em; color:var(--ink-soft); }
+  .sx-cap strong{ font-family:'Fraunces',serif; font-weight:400; font-size:var(--fs-h3); color:var(--paper); letter-spacing:var(--track-display); }
+}
+
+/* ---------- 4. NEXT PROJECT PREVIEW ---------- */
+.next-project .np-thumb{ width:clamp(96px,16vw,220px); aspect-ratio:var(--ar-shot); object-fit:cover; border:var(--border); border-radius:var(--radius-s); background:#0B0A07; margin-left:auto; margin-right:1.25rem; transition:transform var(--dur-3) var(--ease-out-soft); }
+.next-project:hover .np-thumb, .next-project:focus-visible .np-thumb{ transform:translateY(-4px); }
+.next-project > .wrap{ display:flex; align-items:center; }
+@media (max-width:480px){ .next-project .np-thumb{ display:none; } }
+
+/* ---------- 5. HEADER ROOM ON SMALL SCREENS ---------- */
+/* The mobile menu already carries the theme buttons (.mm-theme), so the header copy is hidden below the menu breakpoint to make room for Index. */
+@media (max-width:899px){ header .theme-switch{ display:none; } header .nav-row{ gap:0.75rem; } .sx-trigger{ margin-left:auto; } }

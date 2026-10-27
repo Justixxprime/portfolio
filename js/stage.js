@@ -39,7 +39,10 @@
     }
     requestAnimationFrame(tick);
     $('.ld-skip', el).addEventListener('click', finish);
-    doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') finish(); });
+    // any key or a click anywhere on the loader skips it (Escape, Enter, Space, letters, taps)
+    doc.addEventListener('keydown', function (e) { if (e.key !== 'Tab' && !e.metaKey && !e.ctrlKey && !e.altKey) finish(); });
+    el.addEventListener('click', finish);
+    var hint = $('.ld-skip', el); if (hint) hint.textContent = 'Skip (any key)';
   })();
 
   /* ---------- 2. cursor labels (View, Play, Open) ---------- */
