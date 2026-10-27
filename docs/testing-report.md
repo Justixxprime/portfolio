@@ -1,23 +1,21 @@
-# Testing report, batch 02 (26 October 2026)
+# Testing report, batch 03 (26 October 2026)
 
 Environment: Chromium via Playwright, local static server. NOT tested: Safari, a real iPhone, any real device. Google Fonts cannot load in the test sandbox, so text rendered in fallback fonts: typography and exact text widths were not judged.
 
-## Passed
-- All 28 pages at 1440 wide and 390 wide: no console errors, no horizontal overflow, Project Index button present on every page.
-- Next project preview present on all 14 case studies.
-- Project Index (desktop and mobile): opens, focus moves to Close, page behind is inert and scroll locked, current project marked, 14 project links plus 8 page links all return 200, Tab stays inside, Esc closes, focus returns to the button, inert released.
-- Reduced motion: Index opens instantly and is visible.
-- Header at 320, 360, 390, 768 and 1024 wide: menu button and Index button inside the viewport, overlay and Close button fit.
-- JavaScript syntax checks pass for studio.js, stage.js and service-worker.js.
-- No en or em dashes in new visible copy.
+## Passed (final code, 27 October 2026)
+- All 28 pages at 1440 and 390 wide, scrolled end to end: no console errors, no horizontal overflow, 14 item Work dropdown on every page, no heading left hidden.
+- Homepage rail: pinned on desktop, native scroll on touch. Next button moves the rail in both modes, Previous starts disabled, focusing the last card with the keyboard brings it into view.
+- Project Index overlay: opens, traps focus, closes on Escape, returns focus, reduced motion opens instantly.
+- 404 simulated at /portfolio/projects/boardlly.html: styled correctly at a nested path, shows the requested path, suggests Boardly.
+- Skills map: legend thumbnails light a column of dots on hover and focus.
+- No en or em dashes in visible text or new code. JavaScript syntax checks pass.
 
-## Found and fixed during testing
-- Mobile header overflowed once the Index button was added (menu button pushed off screen). Fixed by hiding the header theme switch below 900px, since the mobile menu has theme buttons.
-- Mobile overlay grew wider than the screen (title and Close cut off). Fixed with minmax(0,1fr) grid columns.
-- Desktop list showed only 7 of 14 projects without scrolling. Rows tightened, all 14 now fit at 1440 by 900.
+## Bugs reported by the owner and fixed
+- Headings clipped to slivers while scrolling case studies (Cheliv pages): the reveal waited on scroll positions that go stale when lazy media loads. Rebuilt on IntersectionObserver with a safety net.
+- Oversized blank frame beside the First Experts features screenshots (and eight more case studies): grid stretched the desktop frame. Desktop now sits on top at its natural ratio.
+- Work dropdown had 13, 12, 11 or 10 items, and none on the notes pages. All pages now list all 14 projects.
+- Plain text arrows in chains replaced by the chip and arrow design.
+- "No invented ratings" line removed from Skills.
 
-## Failed or open
-- projects/trackpoint.html requests 3 recording files that do not exist yet (see media-needed-from-owner.md).
-- Service worker update behaviour (v6) not observed in a real browser update cycle.
-- Safari and real iPhone: outstanding.
-- No Lighthouse or performance numbers were measured, so none are claimed.
+## Not tested
+Safari, a real iPhone, real fonts, and any performance measurement (none claimed).

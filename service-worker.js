@@ -1,9 +1,9 @@
 // Service worker: installability plus a safe offline fallback.
 // HTML is network first, so a case study is never served stale while online.
 // Static assets are cache first. Bump VERSION on every release: old caches are deleted on activate.
-const VERSION = '2026-10-26-v6';
+const VERSION = '2026-10-27-v7';
 const CACHE_NAME = 'obioma-portfolio-' + VERSION;
-const CORE_ASSETS = ['./', './index.html', './work.html', './404.html', './css/style.css?v=6', './js/main.js?v=6', './js/motion.js?v=6', './css/studio.css?v=6', './js/studio.js?v=6', './assets/icons.svg', './manifest.json'];
+const CORE_ASSETS = ['./', './index.html', './work.html', './404.html', './css/style.css?v=7', './js/main.js?v=7', './js/motion.js?v=7', './css/studio.css?v=7', './js/studio.js?v=7', './assets/icons.svg', './manifest.json'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS)).catch(() => {}));

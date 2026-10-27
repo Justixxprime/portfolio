@@ -39,5 +39,14 @@ Source of truth: `css/style.css` (palette, base type, components), `css/stage.cs
 - **Project Index** (js/studio.js, css/studio.css): button in the header on every page. Opens a full screen dialog listing all 14 projects. Desktop: hover or focus a project to see its real screenshot with its honest status. Touch and narrow screens: list with small thumbnails. Esc closes, Tab is trapped, arrow keys move between projects, the rest of the page is inert and scroll is locked, and focus returns to the button.
 - **Next project preview**: small real screenshot of the next case study inside the existing strip.
 
-## Not yet done (honest list)
-Homepage hero and rail redesign, per case study rewrites, Skills capability map, About and Experience redesign, Notes reading layout, 404 redesign. Tokens exist and are ready for those pages, but those pages do not use them yet.
+## Components added in batch 03
+- **Flow** (.flow, .flow-step, .flow-link): boxed mono steps joined by one thin arrow. Used for decision chains on all 14 case studies, the experience path and the skills stack flows. Stacks vertically with a rotated arrow under 900px.
+- **Arrows**: every text arrow was replaced by the same SVG arrow (73 places) and the command palette arrow too.
+- **Heading reveal** (.rise): IntersectionObserver plus a CSS transition with a safety net. Replaces the scroll position based reveal that could leave headings hidden.
+- **Skills map** (.skillmap): list based, readable without JavaScript, dots and a thumbnail legend added by script.
+- **Hero**: 12 column grid on wide screens, headline spans 11 columns, real reel sits beside the lede.
+- **Rail controls** (.rail-nav): previous and next buttons that work in pinned (desktop) and swipe (touch) modes.
+- **Note pager**, **404 suggestion**, **Contact grid**.
+
+## Still open
+Per project copy rewrites, a Notes index redesign beyond the shared type, and a Safari and iPhone pass.

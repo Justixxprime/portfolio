@@ -123,4 +123,59 @@
     var wrap = next.querySelector('.wrap'); var arrow = next.querySelector('.np-a');
     if (p && wrap && arrow) { var im = el('img', 'np-thumb', { alt: '', loading: 'lazy', decoding: 'async', width: '220', height: '137', src: BASE + p.img }); wrap.insertBefore(im, arrow); }
   }
+
+  /* ---------- 4. previous project link on case studies ---------- */
+  if (next && inProjects) {
+    var curSlug = location.pathname.split('/').pop().replace('.html', '');
+    var ci = -1; PROJECTS.forEach(function (x, k) { if (x.slug === curSlug) ci = k; });
+    if (ci > -1) {
+      var pv = PROJECTS[(ci + PROJECTS.length - 1) % PROJECTS.length];
+      var row2 = el('div', 'np-prev-row'); var w2 = el('div', 'wrap'); var a2 = el('a', '', { href: BASE + 'projects/' + pv.slug + '.html' });
+      var ar = doc.createElementNS('http://www.w3.org/2000/svg', 'svg'); ar.setAttribute('class', 'ic ic-14 arw'); ar.setAttribute('aria-hidden', 'true'); ar.setAttribute('focusable', 'false');
+      var us = doc.createElementNS('http://www.w3.org/2000/svg', 'use'); us.setAttribute('href', BASE + 'assets/icons.svg#i-arrow-right'); ar.appendChild(us);
+      var tx2 = el('span'); tx2.textContent = 'Previous project: ' + pv.name; a2.appendChild(ar); a2.appendChild(tx2); w2.appendChild(a2); row2.appendChild(w2);
+      next.parentNode.insertBefore(row2, next);
+    }
+  }
+
+  /* ---------- 5. skills map: dots and a project legend (the text list works on its own) ---------- */
+  var map = doc.getElementById('skill-map');
+  if (map) {
+    var rows = Array.prototype.slice.call(map.querySelectorAll('.sm-row'));
+    rows.forEach(function (r) {
+      var set = (r.getAttribute('data-projects') || '').split(' ');
+      var d = el('span', 'sm-dots'); d.setAttribute('aria-hidden', 'true');
+      PROJECTS.forEach(function (p) { var i = el('i'); if (set.indexOf(p.slug) > -1) i.className = 'on'; d.appendChild(i); });
+      r.appendChild(d);
+    });
+    var firstGroup = map.querySelector('.sm-group');
+    if (firstGroup) {
+      var lg = el('div', 'sm-legendrow'); var note = el('p', 'sm-legend-note'); note.textContent = 'Fourteen projects, in the order of the Index. Hover or focus one to light its column.';
+      var cols = el('div', 'sm-cols'); var cap = el('div', 'sm-caption'); cap.setAttribute('aria-hidden', 'true');
+      PROJECTS.forEach(function (p, k) {
+        var a = el('a', 'sm-col', { href: BASE + 'projects/' + p.slug + '.html', 'aria-label': p.name + ', case study' });
+        var im = el('img', '', { alt: '', loading: 'lazy', decoding: 'async', width: '20', height: '32', src: BASE + p.img }); a.appendChild(im);
+        function on() { map.classList.add('is-dim'); a.classList.add('hot'); cap.textContent = p.name; rows.forEach(function (r) { var dot = r.querySelectorAll('.sm-dots i')[k]; if (dot) dot.classList.add('hot'); }); }
+        function off() { map.classList.remove('is-dim'); a.classList.remove('hot'); cap.textContent = ''; map.querySelectorAll('.sm-dots i.hot').forEach(function (x) { x.classList.remove('hot'); }); }
+        a.addEventListener('mouseenter', on); a.addEventListener('focus', on); a.addEventListener('mouseleave', off); a.addEventListener('blur', off);
+        cols.appendChild(a);
+      });
+      lg.appendChild(note); lg.appendChild(cols); lg.appendChild(cap);
+      firstGroup.parentNode.insertBefore(lg, firstGroup);
+    }
+    map.classList.add('is-enhanced');
+  }
+
+  /* ---------- 6. 404: say what was asked for and suggest the closest real page ---------- */
+  var nf = doc.getElementById('nfSuggest');
+  if (nf) {
+    var asked = decodeURIComponent(location.pathname.split('/').pop() || '').toLowerCase().replace(/\.html?$/, '');
+    var ask = doc.getElementById('nfAsked'); if (ask) ask.textContent = 'You asked for ' + location.pathname + '.';
+    function lev(a, b) { var m = [], i, j; for (i = 0; i <= b.length; i++) m[i] = [i]; for (j = 0; j <= a.length; j++) m[0][j] = j; for (i = 1; i <= b.length; i++) for (j = 1; j <= a.length; j++) m[i][j] = b.charAt(i - 1) === a.charAt(j - 1) ? m[i - 1][j - 1] : Math.min(m[i - 1][j - 1], m[i][j - 1], m[i - 1][j]) + 1; return m[b.length][a.length]; }
+    var cands = PROJECTS.map(function (p) { return { name: p.name, url: 'projects/' + p.slug + '.html', key: p.slug }; }).concat(PAGES.map(function (p) { return { name: p[0], url: p[1], key: p[1].replace('.html', '') }; }));
+    var best = null, bs = 99;
+    if (asked) cands.forEach(function (c) { var d = lev(asked, c.key); if (c.key.indexOf(asked) > -1 || asked.indexOf(c.key) > -1) d = Math.min(d, 1); if (d < bs) { bs = d; best = c; } });
+    if (best && bs <= Math.max(2, Math.round(best.key.length * 0.4))) { nf.textContent = 'Did you mean '; var la = el('a', '', { href: BASE + best.url }); la.textContent = best.name; nf.appendChild(la); nf.appendChild(doc.createTextNode('?')); nf.hidden = false; }
+  }
+
 })();

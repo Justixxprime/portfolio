@@ -399,7 +399,7 @@
       filtered.forEach((a, i) => {
         const row = document.createElement('div');
         row.className = 'cmdk-item' + (i === activeIndex ? ' active' : '');
-        row.innerHTML = `<span>${a.label}</span>` + (a.external ? '<span class="k">↗</span>' : '');
+        row.innerHTML = `<span>${a.label}</span>` + (a.external ? '<span class="k" aria-hidden="true"><svg class="ic ic-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M7 17L17 7M8 7h9v9"/></svg></span>' : '');
         row.addEventListener('click', () => runAction(a));
         listEl.appendChild(row);
       });

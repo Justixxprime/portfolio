@@ -98,6 +98,27 @@
       cards.forEach(function (c) { io.observe(c); });
     }
 
+    // previous / next controls, keyboard friendly, work pinned (desktop) and native (touch) alike
+    var pinST = null, railDist = null, railIdx = 0;
+    var arrowSvg = function (d) { return '<svg class="ic ic-16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="' + d + '"/></svg>'; };
+    var nav = doc.createElement('div'); nav.className = 'rail-nav';
+    nav.innerHTML = '<button type="button" class="rail-btn" data-dir="-1" aria-label="Previous project">' + arrowSvg('M19 12H5M11 18l-6-6 6-6') + '</button><button type="button" class="rail-btn" data-dir="1" aria-label="Next project">' + arrowSvg('M5 12h14M13 6l6 6-6 6') + '</button>';
+    var railHead = $('.rail-head', rail); if (railHead) railHead.appendChild(nav);
+    var btnPrev = nav.children[0], btnNext = nav.children[1];
+    function setIdx(i) { railIdx = i; btnPrev.setAttribute('aria-disabled', i <= 0 ? 'true' : 'false'); btnNext.setAttribute('aria-disabled', i >= cards.length - 1 ? 'true' : 'false'); }
+    function nearest(x) { var best = 0, bd = 1e9; cards.forEach(function (c, i) { var d = Math.abs(c.offsetLeft - 24 - x); if (d < bd) { bd = d; best = i; } }); return best; }
+    function railSync(p) { if (railDist) setIdx(nearest(p * railDist())); }
+    function goTo(i, instant) {
+      i = Math.max(0, Math.min(cards.length - 1, i)); var beh = (RM || instant) ? 'auto' : 'smooth';
+      if (pinST) { var p = Math.min(1, Math.max(0, (cards[i].offsetLeft - 24) / Math.max(1, railDist()))); window.scrollTo({ top: pinST.start + p * (pinST.end - pinST.start), behavior: beh }); }
+      else { viewport.scrollTo({ left: Math.max(0, cards[i].offsetLeft - 24), behavior: beh }); }
+      setIdx(i);
+    }
+    nav.addEventListener('click', function (e) { var b = e.target.closest ? e.target.closest('.rail-btn') : null; if (!b || b.getAttribute('aria-disabled') === 'true') return; goTo(railIdx + parseInt(b.getAttribute('data-dir'), 10)); });
+    viewport.addEventListener('scroll', function () { if (!pinST) setIdx(nearest(viewport.scrollLeft)); }, { passive: true });
+    cards.forEach(function (c, i) { c.addEventListener('focusin', function () { if (pinST && i !== railIdx) goTo(i, true); }); });
+    setIdx(0);
+
     // split characters of the heading, rise in on view
     var title = $('.rail-title', rail);
     if (title && HAS_GSAP && !RM) {
@@ -128,15 +149,16 @@
       mm.add('(min-width: 1000px) and (hover: hover)', function () {
         rail.classList.add('is-pinned');
         var fill = $('.rail-progress .bar i', rail), cnt = $('.rail-progress .cnt', rail);
-        var dist = function () { return Math.max(0, track.scrollWidth - innerWidth + 48); };
+        var dist = function () { return Math.max(0, track.scrollWidth - innerWidth + 48); }; railDist = dist;
         var tw = gsap.to(track, {
           x: function () { return -dist(); }, ease: 'none',
           scrollTrigger: {
-            trigger: rail, start: 'top top', end: function () { return '+=' + dist(); }, pin: true, scrub: 0.7, invalidateOnRefresh: true, anticipatePin: 1,
-            onUpdate: function (s) { if (fill) fill.style.transform = 'scaleX(' + s.progress + ')'; if (cnt) cnt.textContent = String(Math.min(cards.length, 1 + Math.round(s.progress * (cards.length - 1)))).padStart(2, '0') + ' / ' + String(cards.length).padStart(2, '0'); }
+            trigger: rail, start: 'top top', end: function () { return '+=' + Math.round(dist() * 0.7); }, pin: true, scrub: 0.7, invalidateOnRefresh: true, anticipatePin: 1,
+            onUpdate: function (s) { railSync(s.progress); if (fill) fill.style.transform = 'scaleX(' + s.progress + ')'; if (cnt) cnt.textContent = String(Math.min(cards.length, 1 + Math.round(s.progress * (cards.length - 1)))).padStart(2, '0') + ' / ' + String(cards.length).padStart(2, '0'); }
           }
         });
-        return function () { rail.classList.remove('is-pinned'); if (tw.scrollTrigger) tw.scrollTrigger.kill(); gsap.set(track, { clearProps: 'transform' }); };
+        pinST = tw.scrollTrigger;
+        return function () { pinST = null; railDist = null; rail.classList.remove('is-pinned'); if (tw.scrollTrigger) tw.scrollTrigger.kill(); gsap.set(track, { clearProps: 'transform' }); };
       });
     }
   }

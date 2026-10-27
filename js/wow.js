@@ -75,12 +75,18 @@
   }
 
   /* ---------- big headings rise out of a mask ---------- */
+  /* Rebuilt on IntersectionObserver plus CSS transitions. The old version waited for scroll positions that went stale when lazy images and videos loaded, which left headings hidden behind their mask. This one cannot stay hidden: a safety net reveals any heading that is on screen. */
+  var risers = [];
   $$('main h2, .page-head h1').forEach(function (h) {
-    if (h.closest('.hero') || h.dataset.noSplit) return;
-    h.style.overflow = 'hidden'; h.style.paddingBottom = '0.12em';
-    var inner = doc.createElement('span'); inner.style.display = 'block'; while (h.firstChild) inner.appendChild(h.firstChild); h.appendChild(inner);
-    gsap.fromTo(inner, { yPercent: 110, rotate: 2 }, { yPercent: 0, rotate: 0, duration: 1, ease: 'power4.out', scrollTrigger: { trigger: h, start: 'top 90%', once: true } });
+    if (h.closest('.hero') || h.dataset.noSplit || h.classList.contains('rise')) return;
+    var inner = doc.createElement('span'); inner.className = 'rise-inner'; while (h.firstChild) inner.appendChild(h.firstChild); h.appendChild(inner); h.classList.add('rise'); risers.push(h);
   });
+  function revealVisible() { risers.forEach(function (h) { if (h.classList.contains('is-in')) return; var r = h.getBoundingClientRect(); if (r.top < innerHeight * 0.98) h.classList.add('is-in'); }); }
+  if ('IntersectionObserver' in window) {
+    var rio = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting || e.boundingClientRect.top < 0) { e.target.classList.add('is-in'); rio.unobserve(e.target); } }); }, { rootMargin: '0px 0px -2% 0px' });
+    risers.forEach(function (h) { rio.observe(h); });
+    var safety = setInterval(function () { revealVisible(); if (risers.every(function (h) { return h.classList.contains('is-in'); })) clearInterval(safety); }, 1200);
+  } else { risers.forEach(function (h) { h.classList.add('is-in'); }); }
 
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
 })();
