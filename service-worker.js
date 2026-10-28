@@ -1,9 +1,9 @@
 // Service worker: installability plus a safe offline fallback.
 // HTML is network first, so a case study is never served stale while online.
 // Static assets are cache first. Bump VERSION on every release: old caches are deleted on activate.
-const VERSION = '2026-10-27-v8';
+const VERSION = '2026-10-28-v9';
 const CACHE_NAME = 'obioma-portfolio-' + VERSION;
-const CORE_ASSETS = ['./', './index.html', './work.html', './404.html', './css/style.css?v=8', './js/main.js?v=8', './js/motion.js?v=8', './css/studio.css?v=8', './js/studio.js?v=8', './css/header.css?v=8', './js/header.js?v=8', './assets/icons.svg', './manifest.json'];
+const CORE_ASSETS = ['./', './index.html', './work.html', './404.html', './css/style.css?v=8', './js/main.js?v=8', './js/motion.js?v=8', './css/studio.css?v=8', './js/studio.js?v=8', './css/header.css?v=8', './js/header.js?v=8', './css/skills-live.css?v=8', './js/skills-live.js?v=8', './css/notes-live.css?v=8', './js/notes-live.js?v=8', './assets/icons.svg', './manifest.json'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS)).catch(() => {}));

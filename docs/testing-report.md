@@ -16,7 +16,7 @@ Theme switch hidden on mobile, Escape re-opening the panel, footer socials overf
 
 ## Known and left alone
 - Missing phone recordings cause 404 requests on three case studies.
-- Boardly note says 14 Edge Functions while Skills says 24.
+- Boardly note now says 24 Edge Functions, matching Skills and the case study (confirmed by the owner; the number will grow as Boardly grows).
 - Each article ends its last paragraph with stray "Back to blog Let's talk" text.
 
 ## Not tested
