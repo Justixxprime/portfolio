@@ -4,11 +4,7 @@ Generated from the pages and the files on disk (26 October 2026). Nothing here w
 
 ## Case studies: video files referenced but not on disk
 
-- **projects/cheliv-platform.html**: missing cheliv-platform-phone.mp4
-- **projects/first-experts.html**: missing first-experts-phone.mp4
-- **projects/secky.html**: missing secky-phone.mp4
-- **projects/trackpoint.html**: missing trackpoint-phone.mp4, trackpoint-phone-poster.jpg
-- **projects/victorious-concept.html**: missing victorious-concept-phone.mp4
+None. Pages that had a phone recording slot with no file (Cheliv Care Platform, First Experts, SECKY, Trackpoint, Victorious Concept) now show only the desktop recording, so the browser no longer requests missing files. Phone recordings are optional; if you ever add one, tell me and the slot will come back.
 
 ## Case studies: video files present
 
@@ -22,11 +18,10 @@ Generated from the pages and the files on disk (26 October 2026). Nothing here w
 - projects/victorious-concept.html: victorious-concept-shop.mp4, victorious-concept-desktop.mp4, victorious-concept-desktop.webm
 
 ## Still on your list from the repository notes
-- Done in batch 04: SECKY, Trackpoint and Cheliv Care Platform desktop recordings (secky-desktop, trackpoint-desktop, cheliv-platform-desktop in assets/video, mp4 and webm, plus posters). Still missing: the three phone recordings.
+- Done in batch 04: SECKY, Trackpoint and Cheliv Care Platform desktop recordings (secky-desktop, trackpoint-desktop, cheliv-platform-desktop in assets/video, mp4 and webm, plus posters). Cheliv now includes the admin dashboard section (login screen and email list left out).
 - Real screenshots for the teaching website.
-- Phone recordings for First Experts Logistics and Stride.
 - Safari and a real iPhone test of the finished site.
 - A real portrait photo, if you want one on About or the homepage (none is used today).
 
 ## Update on test finding
-The case study pages for SECKY, Trackpoint and Cheliv Care Platform still request their *-phone files, which do not exist. The browser logs 404 requests for them until those recordings are added.
+No 404 requests for case study media remain.

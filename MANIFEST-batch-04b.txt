@@ -1,0 +1,13 @@
+Batch 04b manifest: 11 files, paths relative to repo root
+
+MANIFEST-batch-04b.txt
+README-batch-04b.md
+assets/video/cheliv-platform-desktop.mp4
+assets/video/cheliv-platform-desktop.webm
+css/studio.css
+docs/media-needed-from-owner.md
+projects/cheliv-platform.html
+projects/first-experts.html
+projects/secky.html
+projects/trackpoint.html
+projects/victorious-concept.html
