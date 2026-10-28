@@ -1,0 +1,103 @@
+/* ==========================================================================
+   notes-live.css (batch 04). Notes index and the five articles.
+   Editorial and cinematic: large Fraunces titles, Newsreader reading text, hairline rows, one orchestrated reveal.
+   Everything is readable without JavaScript. Reduced motion: no movement, instant states.
+   ========================================================================== */
+
+/* ---------- index: opening ---------- */
+.nx-hero{ padding-top:clamp(3rem, 8vw, 6rem); padding-bottom:clamp(2rem, 5vw, 4rem); border-bottom:0; }
+.nx-kicker{ display:flex; gap:1.5rem; align-items:center; font-size:var(--fs-label); letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:1.5rem; }
+.nx-kicker::before{ content:""; width:3rem; height:1px; background:var(--brass); }
+.nx-kicker .nx-count{ color:var(--brass-bright); }
+.nx-title{ font-family:'Fraunces', Georgia, serif; font-weight:300; font-size:clamp(3rem, 1.2rem + 8vw, 8.5rem); line-height:.98; letter-spacing:-.04em; max-width:12ch; margin:0; text-wrap:balance; }
+.nx-intro{ font-size:var(--fs-lead); line-height:1.5; color:var(--ink-soft); max-width:46ch; margin:clamp(1.5rem, 3vw, 2.5rem) 0 0; }
+
+/* ---------- index: featured note ---------- */
+.nx-featured{ padding:0 0 clamp(3rem, 7vw, 6rem); border:0; }
+.nx-feature{
+  position:relative; display:grid; gap:1.1rem; padding:clamp(1.5rem, 4vw, 3.5rem); text-decoration:none; color:var(--paper); overflow:hidden;
+  border:var(--border); border-left:2px solid var(--brass); background:var(--ink-raised);
+  transition:border-color .3s ease, background-color .4s ease;
+}
+.nx-feature::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--brass); transform:scaleX(0); transform-origin:left; transition:transform .7s var(--ease-out-soft); }
+.nx-feature:hover::after, .nx-feature:focus-visible::after{ transform:scaleX(1); }
+.nx-feature-k{ display:flex; flex-wrap:wrap; gap:.5rem 1.25rem; font-size:var(--fs-label); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint); }
+.nx-feature-k span:first-child{ color:var(--brass-bright); }
+.nx-feature-title{ font-family:'Fraunces', Georgia, serif; font-weight:400; font-size:clamp(2.2rem, 1.2rem + 4.6vw, 5.2rem); line-height:1.02; letter-spacing:-.03em; margin:.25rem 0 0; max-width:16ch; text-wrap:balance; }
+.nx-feature-first{ font-family:'Newsreader', Georgia, serif; font-style:italic; font-size:clamp(1.3rem, 1rem + 1.4vw, 2.1rem); line-height:1.3; color:var(--brass-bright); margin:0; max-width:36ch; }
+.nx-feature-ex{ font-size:var(--fs-body); line-height:1.65; color:var(--ink-soft); margin:0; max-width:64ch; }
+.nx-feature-cta{ display:inline-flex; align-items:center; gap:.6rem; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; margin-top:.5rem; }
+.nx-feature-cta .arw{ transition:transform .4s var(--ease-out-soft); }
+.nx-feature:hover .nx-feature-cta .arw, .nx-feature:focus-visible .nx-feature-cta .arw{ transform:translateX(6px); }
+
+/* ---------- index: animated list ---------- */
+.nx-index{ padding:0 0 clamp(3rem, 7vw, 6rem); border:0; }
+.nx-index-h{ font-size:var(--fs-label); font-weight:400; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 1rem; }
+.nx-list{ list-style:none; margin:0; padding:0; border-top:1px solid var(--line); position:relative; }
+.nx-item{ border-bottom:1px solid var(--line); position:relative; z-index:1; }
+.nx-row{
+  display:grid; grid-template-columns:3rem minmax(0,1fr) auto 2rem; column-gap:1.25rem; align-items:center; padding:clamp(1.2rem, 2.4vw, 1.9rem) 0;
+  text-decoration:none; color:var(--paper);
+}
+.nx-num{ font-size:.72rem; color:var(--ink-faint); }
+.nx-row-title{ font-family:'Fraunces', Georgia, serif; font-weight:400; font-size:clamp(1.6rem, 1.1rem + 2.4vw, 3.2rem); line-height:1.08; letter-spacing:-.025em; margin:0; transition:transform .5s var(--ease-out-soft), color .3s ease; }
+.nx-meta{ display:flex; gap:1rem; font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); white-space:nowrap; }
+.nx-arrow{ color:var(--ink-faint); justify-self:end; align-self:center; transition:transform .4s var(--ease-out-soft), color .3s ease; }
+.nx-arrow .ic{ width:22px; height:22px; }
+.nx-ex-wrap{ grid-column:2 / -1; display:grid; grid-template-rows:0fr; transition:grid-template-rows .5s var(--ease-out-soft); }
+.nx-ex{ overflow:hidden; font-size:var(--fs-body); line-height:1.6; color:var(--ink-soft); max-width:64ch; opacity:0; transition:opacity .4s ease .05s; }
+.nx-row:hover .nx-ex-wrap, .nx-row:focus-visible .nx-ex-wrap{ grid-template-rows:1fr; }
+.nx-row:hover .nx-ex, .nx-row:focus-visible .nx-ex{ opacity:1; padding-top:.9rem; }
+.nx-row:hover .nx-row-title, .nx-row:focus-visible .nx-row-title{ transform:translateX(.6rem); color:var(--brass-bright); }
+.nx-row:hover .nx-arrow, .nx-row:focus-visible .nx-arrow{ transform:translateX(6px); color:var(--brass-bright); }
+.nx-bar{ position:absolute; left:0; right:0; top:0; height:var(--bh, 0); transform:translateY(var(--by, 0)); background:color-mix(in srgb, var(--brass) 9%, transparent); border-left:2px solid var(--brass); opacity:0; pointer-events:none; transition:transform .45s var(--ease-out-soft), height .45s var(--ease-out-soft), opacity .25s ease; z-index:0; }
+.nx-list.has-bar:hover .nx-bar, .nx-list.has-bar:focus-within .nx-bar{ opacity:1; }
+/* touch and small screens: a clean stacked version, excerpts always visible */
+@media (hover:none), (max-width:699px){
+  .nx-row{ grid-template-columns:2.2rem minmax(0,1fr) 1.5rem; row-gap:.5rem; }
+  .nx-meta{ grid-column:2; grid-row:2; flex-wrap:wrap; }
+  .nx-arrow{ grid-column:3; grid-row:1; }
+  .nx-ex-wrap{ grid-column:2 / -1; grid-row:3; grid-template-rows:1fr; }
+  .nx-ex{ opacity:1; padding-top:.35rem; }
+  .nx-row:hover .nx-row-title{ transform:none; }
+}
+
+/* ---------- index: closing ---------- */
+.nx-close{ padding:clamp(3rem, 7vw, 6rem) 0 clamp(4rem, 9vw, 8rem); border-top:var(--border); }
+.nx-close-title{ font-family:'Fraunces', Georgia, serif; font-weight:300; font-size:clamp(2.2rem, 1.2rem + 4.6vw, 5rem); line-height:1.02; letter-spacing:-.03em; margin:0; max-width:14ch; }
+.nx-close-title em{ color:var(--brass-bright); }
+.nx-close p{ color:var(--ink-soft); font-size:var(--fs-lead); max-width:44ch; margin:1.25rem 0 0; }
+.nx-close-links{ display:flex; flex-wrap:wrap; gap:1rem; margin-top:2rem; }
+
+/* ---------- reveals (IntersectionObserver adds .is-in) ---------- */
+html.js [data-nr]:not(.is-in){ opacity:0; transform:translateY(22px); }
+html.js [data-nr]{ transition:opacity .8s var(--ease-out-soft), transform .8s var(--ease-out-soft); transition-delay:calc(var(--nd, 0) * 90ms); }
+
+/* ---------- articles ---------- */
+.na-progress{ position:fixed; left:0; right:0; top:calc(var(--hd-h, 72px) + env(safe-area-inset-top, 0px)); height:2px; z-index:38; background:transparent; pointer-events:none; }
+.na-progress i{ display:block; height:100%; background:var(--brass-bright); transform:scaleX(var(--p, 0)); transform-origin:left; }
+.na-head{ padding-top:clamp(3rem, 8vw, 6.5rem); padding-bottom:clamp(1.5rem, 4vw, 3rem); }
+.na-title{ font-family:'Fraunces', Georgia, serif; font-weight:300; font-size:clamp(2.6rem, 1.2rem + 6.4vw, 7rem); line-height:1; letter-spacing:-.04em; max-width:14ch; margin:1.25rem 0 0; text-wrap:balance; }
+.na-meta{ display:flex; gap:.75rem; align-items:center; margin-top:1.75rem; text-transform:uppercase; letter-spacing:.08em; }
+.na-meta .cat{ color:var(--brass-bright); }
+.note-body{ max-width:var(--wrap-w); padding-top:clamp(1rem, 3vw, 2rem); padding-bottom:clamp(3rem, 7vw, 6rem); }
+.note-body p, .note-body li{ font-family:'Newsreader', Georgia, serif; font-size:clamp(1.18rem, 1.05rem + .55vw, 1.4rem); line-height:1.7; max-width:64ch; color:color-mix(in srgb, var(--paper) 88%, transparent); }
+.note-body > p:first-child{ font-size:clamp(1.3rem, 1.1rem + .8vw, 1.7rem); line-height:1.55; color:var(--paper); }
+.note-body p + p{ margin-top:1.15em; }
+.note-body h2{ font-family:'Fraunces', Georgia, serif; font-weight:400; font-size:clamp(1.7rem, 1.2rem + 1.8vw, 2.6rem); line-height:1.1; letter-spacing:-.025em; max-width:22ch; margin:clamp(2.5rem, 6vw, 4.5rem) 0 1rem; }
+.note-body h2::before{ content:""; display:block; width:2.5rem; height:1px; background:var(--brass); margin-bottom:1rem; }
+.na-pull{ margin:clamp(2.5rem, 6vw, 4.5rem) 0; padding:0 0 0 clamp(1rem, 3vw, 2rem); border-left:2px solid var(--brass); max-width:30ch; }
+.note-body .na-pull p{ font-family:'Fraunces', Georgia, serif; font-style:italic; font-weight:300; font-size:clamp(1.7rem, 1.2rem + 2.2vw, 3rem); line-height:1.12; letter-spacing:-.02em; color:var(--brass-bright); margin:0; max-width:none; }
+.note-pager{ border-top:var(--border); }
+.note-pager .wrap{ gap:0; }
+.note-pager a{ position:relative; padding:clamp(1.75rem, 4vw, 3rem) 0; font-size:clamp(1.4rem, 1rem + 1.6vw, 2.4rem); transition:color .3s ease, padding .5s var(--ease-out-soft); }
+.note-pager a::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:var(--brass); transform:scaleX(0); transform-origin:left; transition:transform .6s var(--ease-out-soft); }
+.note-pager a:hover::after, .note-pager a:focus-visible::after{ transform:scaleX(1); }
+.note-pager .np-prev:hover{ padding-left:.75rem; }
+@media (min-width:900px){ .note-pager .np-next:hover{ padding-right:.75rem; } }
+.note-pager a span{ letter-spacing:.08em; text-transform:uppercase; }
+
+@media (prefers-reduced-motion: reduce){
+  html.js [data-nr]:not(.is-in){ opacity:1; transform:none; }
+  html.js [data-nr], .nx-feature::after, .nx-row-title, .nx-arrow, .nx-ex-wrap, .nx-ex, .nx-bar, .note-pager a, .note-pager a::after{ transition:none !important; }
+}

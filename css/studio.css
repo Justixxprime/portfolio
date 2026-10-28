@@ -170,7 +170,7 @@ a > .arw{ transition:transform var(--dur-1) var(--ease-out-soft); }
 .rail-card:focus-visible{ outline:var(--focus-ring); outline-offset:6px; }
 
 /* ---------- 9. CASE STUDIES: chapter navigation, previous link, decision flow ---------- */
-h2.case-num-title{ scroll-margin-top:calc(78px + 56px + 1.25rem + env(safe-area-inset-top,0px)); max-width:var(--measure-head); }
+h2.case-num-title{ scroll-margin-top:calc(var(--hd-h, 72px) + 56px + 1.25rem + env(safe-area-inset-top,0px)); max-width:var(--measure-head); }
 .case-num-body{ max-width:var(--measure); }
 .decision-block .dchain{ display:flex; flex-wrap:wrap; align-items:center; gap:0.35rem 0.5rem; }
 .np-prev-row{ border-top:var(--border); }
@@ -204,7 +204,7 @@ h2.case-num-title{ scroll-margin-top:calc(78px + 56px + 1.25rem + env(safe-area-
   .sm-dots i.hot.on{ transform:scale(1.5); background:var(--brass-bright); }
   .skillmap.is-dim .sm-dots i.on:not(.hot){ opacity:0.3; }
   .sm-row:hover{ background:color-mix(in srgb, var(--paper) 4%, transparent); }
-  .sm-legendrow{ display:grid; gap:1.5rem; margin:var(--space-5) 0 0.5rem; position:sticky; top:calc(78px + env(safe-area-inset-top,0px)); z-index:20; background:var(--ink); padding:0.5rem 0; border-bottom:var(--border); }
+  .sm-legendrow{ display:grid; gap:1.5rem; margin:var(--space-5) 0 0.5rem; position:sticky; top:calc(var(--hd-h, 72px) + env(safe-area-inset-top,0px)); z-index:20; background:var(--ink); padding:0.5rem 0; border-bottom:var(--border); }
   .sm-legendrow .sm-cols{ grid-column:3; }
   .sm-legendrow .sm-legend-note{ grid-column:1 / 3; font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); color:var(--ink-faint); align-self:end; }
   .sm-col{ display:block; width:20px; height:32px; border:var(--border); border-radius:2px; overflow:hidden; background:#0B0A07; opacity:0.75; transition:opacity var(--dur-1) ease, transform var(--dur-1) ease; }
@@ -317,4 +317,39 @@ h2.case-num-title{ scroll-margin-top:calc(78px + 56px + 1.25rem + env(safe-area-
   .shot-row.tri > div:last-child{ grid-column:1 / -1; display:grid !important; grid-template-columns:minmax(0,420px) minmax(0,250px); gap:clamp(1.5rem,4vw,3rem) !important; align-items:start; justify-content:center; }
   .shot-row.tri .shot-frame.is-tablet{ max-width:420px; }
   .shot-row.tri .shot-frame.is-phone{ max-width:250px; }
+}
+
+/* batch 04: the decorative hero lettering must never create sideways scroll at 320px */
+.hero{ overflow-x:clip; }
+
+.nf-h{ max-width:100%; overflow-wrap:break-word; }
+
+/* ---------- 19. SHARED MOTION LANGUAGE (batch 04) ----------
+   Principles: fast in, slow out; distances under 24px; nothing loops; every state has an instant equivalent under reduced motion.
+   1. Cross page transitions: progressive enhancement through the CSS View Transitions API (ignored where unsupported).
+   2. One hover and focus language for buttons, cards and links.
+   3. A gentle magnetic pull on primary buttons (fine pointers only, set up in studio.js).
+   4. A short page entrance for the main content. */
+@media (prefers-reduced-motion: no-preference){
+  @view-transition{ navigation:auto; }
+  header.hd{ view-transition-name:site-header; }
+  ::view-transition-old(root){ animation:sx-vt-out .28s var(--ease-standard) both; }
+  ::view-transition-new(root){ animation:sx-vt-in .5s var(--ease-out-soft) both; }
+  ::view-transition-group(site-header){ animation-duration:0s; }
+  main{ animation:sx-enter .7s var(--ease-out-soft) both; }
+}
+@keyframes sx-vt-out{ to{ opacity:0; } }
+@keyframes sx-vt-in{ from{ opacity:0; } }
+@keyframes sx-enter{ from{ opacity:0; transform:translateY(14px); } }
+
+:where(.btn-primary, .btn-ghost){ transition:transform .35s var(--ease-out-soft), background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .35s var(--ease-out-soft); }
+:where(.btn-primary, .btn-ghost):hover{ transform:translateY(-2px); }
+:where(.btn-primary):hover{ box-shadow:0 14px 28px -16px color-mix(in srgb, var(--brass) 80%, transparent); }
+:where(.btn-ghost):hover, :where(.btn-ghost):focus-visible{ border-color:var(--brass); }
+:where(.btn-primary, .btn-ghost):active{ transform:translateY(0) scale(.98); transition-duration:.1s; }
+:where(.work-item, .rail-card, .sibling, .dd-item){ transition:border-color .3s ease, background-color .3s ease, transform .45s var(--ease-out-soft); }
+.sx-mag{ will-change:transform; }
+
+@media (prefers-reduced-motion: reduce){
+  :where(.btn-primary, .btn-ghost), :where(.btn-primary, .btn-ghost):hover, :where(.btn-primary, .btn-ghost):active{ transform:none !important; transition:none; }
 }

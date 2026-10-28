@@ -16,8 +16,7 @@
     lenis.on('scroll', function (e) { vel = e.velocity; ScrollTrigger.update(); });
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
     gsap.ticker.lagSmoothing(0);
-    var menu = $('#mobileMenu');
-    if (menu && 'MutationObserver' in window) new MutationObserver(function () { menu.classList.contains('open') ? lenis.stop() : lenis.start(); }).observe(menu, { attributes: true, attributeFilter: ['class'] });
+    window.addEventListener('hd-lock', function (e) { e.detail && e.detail.lock ? lenis.stop() : lenis.start(); });
     var lb = $('dialog.lightbox');
     if (lb) new MutationObserver(function () { lb.open ? lenis.stop() : lenis.start(); }).observe(lb, { attributes: true, attributeFilter: ['open'] });
   }

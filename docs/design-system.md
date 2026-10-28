@@ -1,4 +1,4 @@
-# Design system (batch 02)
+# Design system (batch 04)
 
 Source of truth: `css/style.css` (palette, base type, components), `css/stage.css` (loader, cursor, rail, statement) and the new `css/studio.css` (tokens, accessibility floor, Project Index, next project previews). Everything is plain CSS custom properties, no build step.
 
@@ -47,6 +47,14 @@ Source of truth: `css/style.css` (palette, base type, components), `css/stage.cs
 - **Hero**: 12 column grid on wide screens, headline spans 11 columns, real reel sits beside the lede.
 - **Rail controls** (.rail-nav): previous and next buttons that work in pinned (desktop) and swipe (touch) modes.
 - **Note pager**, **404 suggestion**, **Contact grid**.
+
+## Added in batch 04
+- **Header** (css/header.css, js/header.js, built by scripts/build-header.py): one sticky header on all 28 pages, identical markup (paths aside). Row: wordmark, Work, Contact, and a Menu button. The button opens a panel with three columns: Pages (8, each with a typographic preview card made from that page's meta description), the 14 projects as thumbnails (plus the work archive and the Project Index), and Elsewhere (7 social links, theme switch, Search, location line). Desktop opens on hover (120ms intent delay, 250ms grace), click pins it, keyboard focus or ArrowDown opens it, Escape closes and returns focus. Under 900px it is a full screen dialog with a focus trap and the page behind is inert. Without JavaScript the panel is a plain static list. Case study pages keep hide-on-scroll; all other pages never hide the header. Height token: --hd-h (72px, 64px on mobile).
+- **Socials**: GitHub, LinkedIn, X (@iamjustixx), X (@obiomachibueze), Instagram, Facebook, Threads. Same list in the header panel, footer, contact page and command palette. Icons in assets/icons.svg.
+- **Shared motion language** (css/studio.css section 19): View Transitions between pages (only when reduced motion is not requested), a short page entrance, one hover and press behaviour for buttons, magnetic primary buttons on fine pointers only. Everything is switched off under prefers-reduced-motion.
+- **Skills page** (css/skills-live.css, js/skills-live.js, scripts/build-skills.py): toolbench with 16 chips, toolbox of 27 tools with a detail drawer and connected project thumbnails, role tabs from the Experience page, process flows, numbers that count up, a chain chooser, and skills map dots that link to case studies.
+- **Notes** (css/notes-live.css, js/notes-live.js, scripts/build-notes.py): index with a featured note and a list with a sliding highlight and hover excerpts. Articles get a cinematic head, a reading progress bar and one pull quote taken word for word from the note. Reading time is computed (words / 200, rounded up), never typed.
+- **Rules kept**: no wheel hijacking, IntersectionObserver reveals, everything readable without JavaScript, with a keyboard, on touch and with reduced motion.
 
 ## Still open
 Per project copy rewrites, a Notes index redesign beyond the shared type, and a Safari and iPhone pass.
