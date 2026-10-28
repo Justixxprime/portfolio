@@ -178,7 +178,7 @@
 
   <section style="border-top:none;">
     <div class="wrap note-body">
-      <p>Most of what I write about on this blog is frontend: layout, Tailwind, responsive fixes. Boardly is different. Underneath the kanban board and the calendar view sits a real serverless backend, 14 Supabase Edge Functions, that quietly do things a static site never needs to. I wanted to write down what's actually running back there, partly because it's the part that never shows up in a screenshot.</p>
+      <p>Most of what I write about on this blog is frontend: layout, Tailwind, responsive fixes. Boardly is different. Underneath the kanban board and the calendar view sits a real serverless backend, 24 Supabase Edge Functions, that quietly do things a static site never needs to. I wanted to write down what's actually running back there, partly because it's the part that never shows up in a screenshot.</p>
       <h2>An AI-written email that only sends when it should</h2>
       <p>Once a day, a scheduled function checks every account for tasks that are overdue or due today. If it finds any, it asks a free Groq-hosted model to write a short, plain-English summary of what needs attention, then emails it through Resend. The detail I care about most here isn't the AI part, it's that accounts with nothing due get skipped entirely. An empty "you have 0 tasks today" email is worse than no email at all, so the function checks first and only sends when there's something real to say.</p>
       <!-- na:begin quote --><blockquote class="na-pull"><p>None of this is visible in a demo video.</p></blockquote><!-- na:end quote --><h2>SMS that actually gets through, in Nigeria</h2>
