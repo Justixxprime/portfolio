@@ -4,10 +4,10 @@ Generated from the pages and the files on disk (26 October 2026). Nothing here w
 
 ## Case studies: video files referenced but not on disk
 
-- **projects/cheliv-platform.html**: missing cheliv-platform-desktop.mp4, cheliv-platform-phone.mp4
+- **projects/cheliv-platform.html**: missing cheliv-platform-phone.mp4
 - **projects/first-experts.html**: missing first-experts-phone.mp4
-- **projects/secky.html**: missing secky-desktop.mp4, secky-phone.mp4
-- **projects/trackpoint.html**: missing trackpoint-desktop.mp4, trackpoint-phone.mp4
+- **projects/secky.html**: missing secky-phone.mp4
+- **projects/trackpoint.html**: missing trackpoint-phone.mp4, trackpoint-phone-poster.jpg
 - **projects/victorious-concept.html**: missing victorious-concept-phone.mp4
 
 ## Case studies: video files present
@@ -22,11 +22,11 @@ Generated from the pages and the files on disk (26 October 2026). Nothing here w
 - projects/victorious-concept.html: victorious-concept-shop.mp4, victorious-concept-desktop.mp4, victorious-concept-desktop.webm
 
 ## Still on your list from the repository notes
-- Record SECKY, Trackpoint and the Cheliv Care Platform (desktop recordings).
+- Done in batch 04: SECKY, Trackpoint and Cheliv Care Platform desktop recordings (secky-desktop, trackpoint-desktop, cheliv-platform-desktop in assets/video, mp4 and webm, plus posters). Still missing: the three phone recordings.
 - Real screenshots for the teaching website.
 - Phone recordings for First Experts Logistics and Stride.
 - Safari and a real iPhone test of the finished site.
 - A real portrait photo, if you want one on About or the homepage (none is used today).
 
 ## Update on test finding
-The Trackpoint page requests three files that do not exist (trackpoint-phone.mp4, trackpoint-poster.jpg, trackpoint-phone-poster.jpg). The browser logs three 404 requests until those recordings exist.
+The case study pages for SECKY, Trackpoint and Cheliv Care Platform still request their *-phone files, which do not exist. The browser logs 404 requests for them until those recordings are added.

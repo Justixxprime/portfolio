@@ -30,25 +30,31 @@
   ];
   var PAGES = [['Home','index.html'],['Work archive','work.html'],['About','about.html'],['Experience','experience.html'],['Skills','skills.html'],['Notes','notes.html'],['Resume','resume.html'],['Contact','contact.html']];
 
+  window.SX_PROJECTS = PROJECTS;
   var here = location.pathname.split('/').pop() || 'index.html';
   var inProjects = /\/projects\/[^/]*$/.test(location.pathname);
   function el(tag, cls, attrs) { var e = doc.createElement(tag); if (cls) e.className = cls; for (var k in (attrs || {})) e.setAttribute(k, attrs[k]); return e; }
   function icon(name) { var s = doc.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('class', 'ic'); s.setAttribute('aria-hidden', 'true'); s.setAttribute('focusable', 'false'); var u = doc.createElementNS('http://www.w3.org/2000/svg', 'use'); u.setAttribute('href', BASE + 'assets/icons.svg#' + name); s.appendChild(u); return s; }
 
   /* ---------- 3. aria-current on nav links ---------- */
-  Array.prototype.forEach.call(doc.querySelectorAll('header .links a[href], #mobileMenu a[href]'), function (a) {
+  Array.prototype.forEach.call(doc.querySelectorAll('header a[href]:not(.hd-more)'), function (a) {
     var f = (a.getAttribute('href') || '').split('#')[0].split('/').pop();
     if (f && f === here) a.setAttribute('aria-current', 'page');
     else if (a.getAttribute('aria-current') === 'page' && f !== here) a.removeAttribute('aria-current');
   });
 
   /* ---------- 1. Project Index overlay ---------- */
-  var anchor = doc.querySelector('header .menu-btn');
-  var row = doc.querySelector('header .nav-row');
+  var row = doc.querySelector('header .hd-row, header .nav-row');
   if (!row) return;
-  var trigger = el('button', 'sx-trigger', { type: 'button', 'aria-haspopup': 'dialog', 'aria-expanded': 'false', 'aria-controls': 'sxIndex' });
-  trigger.appendChild(icon('i-grid')); var tl = el('span'); tl.textContent = 'Index'; trigger.appendChild(tl);
-  if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(trigger, anchor); else row.appendChild(trigger);
+  /* The Index button lives in the header panel ([data-open-index]). Older markup falls back to a button in the header row. */
+  var triggers = Array.prototype.slice.call(doc.querySelectorAll('[data-open-index]'));
+  if (!triggers.length) {
+    var t0 = el('button', 'sx-trigger', { type: 'button', 'aria-haspopup': 'dialog', 'aria-expanded': 'false', 'aria-controls': 'sxIndex' });
+    t0.appendChild(icon('i-grid')); var tl = el('span'); tl.textContent = 'Index'; t0.appendChild(tl); row.appendChild(t0); triggers = [t0];
+  }
+  triggers.forEach(function (t) { t.setAttribute('aria-haspopup', 'dialog'); t.setAttribute('aria-controls', 'sxIndex'); t.setAttribute('aria-expanded', 'false'); });
+  var trigger = triggers[0];
+  function setExp(v) { triggers.forEach(function (t) { t.setAttribute('aria-expanded', v ? 'true' : 'false'); }); }
 
   var ov = el('div', 'sx-index', { id: 'sxIndex', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'sxTitle', 'data-lenis-prevent': '' });
   var head = el('div', 'sx-head'); var h = el('h2', 'sx-title', { id: 'sxTitle' }); h.textContent = 'All fourteen projects';
@@ -86,16 +92,17 @@
     if (ov.classList.contains('is-open')) return;
     lastFocus = doc.activeElement; loadThumbs(); setPreview(0);
     Array.prototype.forEach.call(doc.body.children, function (c) { if (c !== ov && c.tagName !== 'SCRIPT' && !c.hasAttribute('inert')) { c.setAttribute('inert', ''); hidden.push(c); } });
-    html.classList.add('sx-lock'); ov.classList.add('is-open'); trigger.setAttribute('aria-expanded', 'true');
+    html.classList.add('sx-lock'); ov.classList.add('is-open'); setExp(true);
     setTimeout(function () { close.focus(); }, RM ? 0 : 60);
   }
   function shut() {
     if (!ov.classList.contains('is-open')) return;
-    ov.classList.remove('is-open'); html.classList.remove('sx-lock'); trigger.setAttribute('aria-expanded', 'false');
+    ov.classList.remove('is-open'); html.classList.remove('sx-lock'); setExp(false);
     hidden.forEach(function (c) { c.removeAttribute('inert'); }); hidden = [];
-    if (lastFocus && lastFocus.focus) lastFocus.focus(); else trigger.focus();
+    var back = (lastFocus && lastFocus.focus && lastFocus.offsetParent !== null) ? lastFocus : (doc.getElementById('hdTrigger') || trigger);
+    back.focus();
   }
-  trigger.addEventListener('click', function () { ov.classList.contains('is-open') ? shut() : open(); });
+  triggers.forEach(function (t) { t.addEventListener('click', function () { ov.classList.contains('is-open') ? shut() : open(); }); });
   close.addEventListener('click', shut);
   ov.addEventListener('wheel', function (e) { e.stopPropagation(); }, { passive: true });
   ov.addEventListener('touchmove', function (e) { e.stopPropagation(); }, { passive: true });
@@ -145,7 +152,15 @@
     rows.forEach(function (r) {
       var set = (r.getAttribute('data-projects') || '').split(' ');
       var d = el('span', 'sm-dots'); d.setAttribute('aria-hidden', 'true');
-      PROJECTS.forEach(function (p) { var i = el('i'); if (set.indexOf(p.slug) > -1) i.className = 'on'; d.appendChild(i); });
+      PROJECTS.forEach(function (p, idx) {
+        var i = el('i');
+        if (set.indexOf(p.slug) > -1) {
+          i.className = 'on';
+          /* each lit dot links to its case study (pointer and touch; keyboard users have the text links in the row) */
+          var a = el('a', 'sm-dot', { href: BASE + 'projects/' + p.slug + '.html', tabindex: '-1', title: p.name, 'aria-hidden': 'true', style: '--di:' + idx });
+          a.appendChild(i); d.appendChild(a);
+        } else d.appendChild(i);
+      });
       r.appendChild(d);
     });
     var firstGroup = map.querySelector('.sm-group');
@@ -176,6 +191,19 @@
     var best = null, bs = 99;
     if (asked) cands.forEach(function (c) { var d = lev(asked, c.key); if (c.key.indexOf(asked) > -1 || asked.indexOf(c.key) > -1) d = Math.min(d, 1); if (d < bs) { bs = d; best = c; } });
     if (best && bs <= Math.max(2, Math.round(best.key.length * 0.4))) { nf.textContent = 'Did you mean '; var la = el('a', '', { href: BASE + best.url }); la.textContent = best.name; nf.appendChild(la); nf.appendChild(doc.createTextNode('?')); nf.hidden = false; }
+  }
+
+  /* ---------- 7. gentle magnetic pull on primary buttons (fine pointers, not under reduced motion) ---------- */
+  if (!RM && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    Array.prototype.forEach.call(doc.querySelectorAll('.btn-primary:not([data-magnetic])'), function (b) {
+      b.classList.add('sx-mag');
+      var raf = 0;
+      b.addEventListener('pointermove', function (e) {
+        var r = b.getBoundingClientRect(); var x = (e.clientX - (r.left + r.width / 2)) * 0.18, y = (e.clientY - (r.top + r.height / 2)) * 0.28;
+        cancelAnimationFrame(raf); raf = requestAnimationFrame(function () { b.style.transform = 'translate(' + x.toFixed(1) + 'px,' + (y - 2).toFixed(1) + 'px)'; });
+      });
+      b.addEventListener('pointerleave', function () { cancelAnimationFrame(raf); b.style.transform = ''; });
+    });
   }
 
 })();

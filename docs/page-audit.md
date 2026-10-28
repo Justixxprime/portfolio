@@ -1,4 +1,4 @@
-# Page audit (batch 03, 27 October 2026)
+# Page audit (batch 04, 28 October 2026)
 
 Facts come from scripts run on the repository. Every page was loaded in Chromium at 1440 and 390 wide, scrolled end to end, and checked for console errors, horizontal overflow, the Work dropdown (14 items) and headings left hidden. All 28 passed.
 
@@ -32,6 +32,16 @@ Facts come from scripts run on the repository. Every page was loaded in Chromium
 | projects/teaching-portfolio.html | Teaching Portfolio | 14 | Heading reveal fixed, decision chains as chip flows, screenshot grid fixed (9 pages), previous and next project links with preview, full dropdown. |
 | projects/trackpoint.html | Trackpoint Global Resources | 14 | Heading reveal fixed, decision chains as chip flows, screenshot grid fixed (9 pages), previous and next project links with preview, full dropdown. |
 | projects/victorious-concept.html | Victorious Concept | 14 | Heading reveal fixed, decision chains as chip flows, screenshot grid fixed (9 pages), previous and next project links with preview, full dropdown. |
+
+## Batch 04 changes by page
+- **All 28 pages**: new header and panel, 7 social links in header panel and footer, assets bumped to ?v=8, old mobile menu removed.
+- **index.html**: three new rail cards (Trackpoint, SECKY, Cheliv Care Platform) and three reel tabs using the new recordings. Title now "Eleven projects, recorded live."
+- **skills.html**: toolbench, toolbox, roles, process and numbers sections added. Existing text kept.
+- **notes.html** and **notes/*.html (5)**: rebuilt index, article head, progress bar, pull quote. Note text unchanged.
+- **contact.html**: all 7 socials.
+- **projects/secky, trackpoint, cheliv-platform**: desktop recordings now exist on disk. Page copy and layout were not changed (out of scope).
+- **Other projects/*.html (11 more), work, about, experience, resume, 404**: header, footer and version bump only.
+- **Not changed**: case study copy, media and layout.
 
 ## Honest limits
 - The 14 case studies got structural and design upgrades (headings, flows, screenshot grids, navigation). Their written copy was not rewritten, because rewriting needs facts only you have. Send corrections or new facts and they will be applied.

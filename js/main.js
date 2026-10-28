@@ -361,6 +361,11 @@
       { label: 'Download CV (PDF)', href: p + 'assets/Obioma_Chibueze_Justice_CV.pdf', icon: 'download', external: true },
       { label: 'Open GitHub', href: 'https://github.com/Justixxprime', icon: 'external', external: true },
       { label: 'Open LinkedIn', href: 'https://www.linkedin.com/in/chibueze-obioma', icon: 'external', external: true },
+      { label: 'Open X, @iamjustixx', href: 'https://x.com/iamjustixx', icon: 'external', external: true },
+      { label: 'Open X, @obiomachibueze', href: 'https://x.com/obiomachibueze', icon: 'external', external: true },
+      { label: 'Open Instagram', href: 'https://www.instagram.com/chibueze_obioma', icon: 'external', external: true },
+      { label: 'Open Facebook', href: 'https://www.facebook.com/obiomachibueze', icon: 'external', external: true },
+      { label: 'Open Threads', href: 'https://www.threads.com/@chibueze_obioma', icon: 'external', external: true },
       { label: 'Boardly case study', href: p + 'projects/boardly.html', icon: 'grid' },
       { label: 'Victorious Concept case study', href: p + 'projects/victorious-concept.html', icon: 'grid' },
       { label: 'Switch to light theme', action: () => window.fnSetTheme('light', false), icon: 'sun' },
@@ -445,15 +450,8 @@
       }
     });
 
-    const navStatus = document.querySelector('.nav-status');
-    if (navStatus) {
-      const hint = document.createElement('button');
-      hint.textContent = navStatus.querySelector('.dot') ? 'Search' : 'Search';
-      hint.setAttribute('aria-label', 'Open command palette');
-      hint.style.cssText = 'background:none; border:1px solid var(--line); color:var(--ink-soft); font-size:0.72rem; padding:0.25rem 0.55rem; cursor:pointer; margin-left:0.75rem; font-family:JetBrains Mono, monospace;';
-      hint.addEventListener('click', open);
-      navStatus.appendChild(hint);
-    }
+    // any button marked data-cmdk-open (the Search button in the header panel) opens the palette
+    document.querySelectorAll('[data-cmdk-open]').forEach(function (btn) { btn.addEventListener('click', open); });
   })();
 
 })();

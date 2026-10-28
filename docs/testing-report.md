@@ -1,3 +1,29 @@
+# Testing report, batch 04 (28 October 2026)
+
+Environment: Chromium via Playwright against a local static server (python3 -m http.server). NOT tested: Safari, Firefox, a real iPhone or any real device. Google Fonts cannot load in the sandbox, so text rendered in fallback fonts and exact typography and text widths were not judged. No performance measurement was done. The Threads link (threads.com/@chibueze_obioma) could not be verified from the sandbox.
+
+## Passed (final code)
+- scripts/site-check.py: 28 pages at 1440 and 390 wide, scrolled end to end: no console or network errors (the known missing *-phone files and blocked Google Fonts are ignored), no sideways overflow, no heading left hidden, header identical on every page, 8 pages and 14 projects in the panel, 7 social links per page, no old mobile menu, no ?v=7, all internal links resolve.
+- Header panel: opens by hover, click, keyboard and touch; Escape closes and returns focus; at 320, 360, 390 widths and up there is no sideways scroll with the panel open (a 6 to 8px overflow at 320 was found and fixed).
+- No JavaScript: content readable, panel is a static list.
+- Reduced motion: panel, page transitions and magnetic buttons switch off.
+- 404 at a nested path renders correctly.
+- Dash audit: 0 en or em dashes in visible copy.
+- Skills and Notes pages checked by screenshot at desktop and mobile, with drawer, tabs, chain chooser and note highlight exercised.
+
+## Bugs found during the batch and fixed
+Theme switch hidden on mobile, Escape re-opening the panel, footer socials overflowing at 320, home hero lettering overflow, 404 heading overflow by 1px, old mobile menu left on nested pages, wrong aria-current on the work archive link, Skills drawer title read aloud twice.
+
+## Known and left alone
+- Missing phone recordings cause 404 requests on three case studies.
+- Boardly note says 14 Edge Functions while Skills says 24.
+- Each article ends its last paragraph with stray "Back to blog Let's talk" text.
+
+## Not tested
+Safari, Firefox, a real iPhone, real fonts, performance.
+
+---
+
 # Testing report, batch 03 (26 October 2026)
 
 Environment: Chromium via Playwright, local static server. NOT tested: Safari, a real iPhone, any real device. Google Fonts cannot load in the test sandbox, so text rendered in fallback fonts: typography and exact text widths were not judged.
