@@ -353,3 +353,6 @@ h2.case-num-title{ scroll-margin-top:calc(var(--hd-h, 72px) + 56px + 1.25rem + e
 @media (prefers-reduced-motion: reduce){
   :where(.btn-primary, .btn-ghost), :where(.btn-primary, .btn-ghost):hover, :where(.btn-primary, .btn-ghost):active{ transform:none !important; transition:none; }
 }
+
+/* batch 04: a case study with only a desktop recording uses the full width */
+.vf-pair > .video-frame:only-child{ grid-column:1 / -1; }
